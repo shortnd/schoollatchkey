@@ -2,15 +2,12 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Facades\Log;
 
-class User extends Authenticatable
+class ChildParent extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -41,17 +38,6 @@ class User extends Authenticatable
 
     public function children()
     {
-        if (!$this->hasRole('parent')) {
-            return;
-        }
         return $this->belongsToMany(Child::class);
     }
-
-    // public function school()
-    // {
-    //     if ($this->hasRole('staff|parent')) {
-    //         return $this->hasMany(School::class);
-    //     }
-    //     return;
-    // }
 }
