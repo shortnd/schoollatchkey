@@ -10,12 +10,18 @@ class School extends Model
 {
     protected $fillable = ['name', 'state'];
 
-    protected $guarded = ['slug'];
+    protected $guarded = ['slug', 'school_id'];
 
     public function children()
     {
         return $this->hasMany(Child::class);
     }
+
+    public function addChild($request)
+    {
+        $this->children()->create($request);
+    }
+
 
     public function checkins()
     {
@@ -35,6 +41,7 @@ class School extends Model
 
         static::creating(function ($school) {
             $school->slug = Str::lower($school->name);
+            $school->owner_id = auth()->id();
         });
     }
 

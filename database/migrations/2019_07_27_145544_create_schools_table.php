@@ -18,6 +18,8 @@ class CreateSchoolsTable extends Migration
             $table->string('name');
             $table->string('state', 2);
             $table->string('slug')->unique()->index();
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

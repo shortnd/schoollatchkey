@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class SchoolController extends Controller
 {
-    public function __construct()
-    {
-        return $this->middleware('auth')->except('index');
-    }
+     public function __construct()
+     {
+         return $this->middleware('auth');
+     }
+
     /**
      * Display a listing of the resource.
      *
@@ -106,12 +107,15 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $this->validate($request, [
+        $this->validate($request, [
             'name' => 'required|max:255',
             'state' => 'required|min:2|max:2'
         ]);
 
-        School::create($validatedData);
+        School::create([
+            'name' => $request->name,
+            'state' => $request->state,
+        ]);
 
         return redirect(route('schools.index'));
     }

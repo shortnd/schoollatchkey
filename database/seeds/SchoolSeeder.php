@@ -15,7 +15,8 @@ class SchoolSeeder extends Seeder
         School::create([
             'name' => 'Becon',
             'state' => 'mi',
-            'slug' => 'becon'
+            'slug' => 'becon',
+            'owner_id' => 1
         ]);
     }
 }

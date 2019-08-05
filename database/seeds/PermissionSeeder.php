@@ -37,5 +37,6 @@ class PermissionSeeder extends Seeder
 
         $parentRole;
         $staffRole;
+        $adminRole;
     }
 }

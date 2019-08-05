@@ -17,6 +17,7 @@ class CreateChildrenTable extends Migration
             $table->bigIncrements('id');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('slug')->unique()->index();
             $table->unsignedBigInteger('school_id')->nullable();
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('set null');
             $table->timestamps();

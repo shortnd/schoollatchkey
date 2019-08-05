@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use App\Scopes\SchoolOwnedScope;
 
 class Child extends Model
 {
@@ -20,7 +22,20 @@ class Child extends Model
 
     public function parents()
     {
-        // return $this->belongsToMany(ChildParent::class);
         return $this->belongsToMany(User::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($child) {
+            $child->slug = Str::slug($child->first_name.' '.$child->last_name, '-');
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

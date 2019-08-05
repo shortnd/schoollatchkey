@@ -7,10 +7,7 @@
             <ul>
                 @foreach ($schools as $school)
                     <li>
-                        <a href="{{ route('school.index', $school) }}">{{ $school->name }}</a>
-                        @role('staff', 'admin')
-                        - <a href="{{ route('schools.edit', $school) }}">Edit</a>
-                        @endrole
+                        <a href="{{ route('school:school.index', $school) }}">{{ $school->name }}</a>
                     </li>
                 @endforeach
             </ul>
