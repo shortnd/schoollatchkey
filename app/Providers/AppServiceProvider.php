@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\School;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
-            $view->school = request()->route('school');
+            $school = School::where('slug', '=', request('school'))->first();
+            if ($school) {
+                $view->school = $school;
+            }
         });
 
     }

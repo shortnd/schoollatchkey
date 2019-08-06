@@ -6,8 +6,8 @@
             <header class="card-header">
                 Add Child
             </header>
-
-            <form action="{{ route('school:children.store', $school) }}" method="POST">
+            @livewire('children.create-form', $school)
+            {{-- <form action="{{ route('school:children.store', $school) }}" method="POST">
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
@@ -40,10 +40,7 @@
                         <button type="submit" class="btn btn-primary">Add Child</button>
                     </div>
                 </div>
-            </form>
-{{--            <section class="card-body">--}}
-
-{{--            </section>--}}
+            </form> --}}
         </div>
     </div>
 @endsection
