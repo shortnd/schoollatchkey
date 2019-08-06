@@ -30,6 +30,9 @@ Route::group([
     'prefix' => '/{school}',
     'as' => 'school:',
 ], function () {
+    // Route::get('/', function () {
+    //     dd(request()->school);
+    // })->name('school.index');
     Route::get('/', 'SchoolChildrenController@index')->name('school.index');
     Route::get('create', 'SchoolChildrenController@create')->name('children.create');
     Route::post('/', 'SchoolChildrenController@store')->name('children.store');

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\School;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,12 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', function ($view) {
-            $school = School::where('slug', '=', request('school'))->first();
-            if ($school) {
-                $view->school = $school;
-            }
+        Route::bind('school', function ($value) {
+            return \App\School::where('slug', $value)->first();
         });
-
+        View::composer('*', function ($view) {
+            $view->school = request()->school;
+        });
     }
 }

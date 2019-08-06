@@ -8,6 +8,7 @@
             </div>
         @empty
             <h2 class="h4 text-center">No Children in this school</h2>
+            {{ $school }}
             <a href="{{ route('school:children.create', $school) }}">Add Children</a>
         @endforelse
     </div>

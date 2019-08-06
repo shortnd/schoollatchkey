@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\Children;
 
-use Livewire\Component;
 use App\Child;
+use App\School;
+use Livewire\Component;
 
 class CreateForm extends Component
 {
@@ -26,7 +27,7 @@ class CreateForm extends Component
         Child::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'school_id' => $this->school->id
+            'school_id' => request()->school->id,
         ]);
 
         $this->redirect(route('school:school.index', $this->school));
