@@ -13,14 +13,14 @@ class SchoolMigrate extends Command
      *
      * @var string
      */
-    protected $signature = 'tenants:migrate';
+    protected $signature = 'schools:migrate';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Migrate tenant databases';
+    protected $description = 'Migrate school databases';
 
     protected $schoolManager;
 
@@ -50,7 +50,7 @@ class SchoolMigrate extends Command
 
         foreach ($schools as $school) {
             $this->schoolManager->setSchool($school);
-            \DB::connection('tenant')->reconnect();
+            \DB::connection('school')->reconnect();
             $this->migrate();
         }
     }
@@ -67,7 +67,7 @@ class SchoolMigrate extends Command
 
     protected function prepareDatabase()
     {
-        $this->migrator->setConnection('tenant');
+        $this->migrator->setConnection('school');
 
         if (! $this->migrator->repositoryExists()) {
             $this->call('migrate:install');

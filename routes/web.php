@@ -32,7 +32,6 @@ Route::group([
     'as' => 'school:',
 ], function () {
     // Route::get('/', function () {
-    //     dd(request()->school);
     // })->name('school.index');
     Route::get('/', 'SchoolChildrenController@index')->name('school.index');
     Route::get('create', 'SchoolChildrenController@create')->name('children.create');

@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use App\Scopes\SchoolOwnedScope;
 
 class Child extends Model
 {
-    protected $table = 'tenant';
+    protected $connection = 'school';
 
     protected $guarded = [];
 
@@ -32,7 +31,7 @@ class Child extends Model
         parent::boot();
 
         static::creating(function ($child) {
-            $child->slug = Str::slug($child->first_name.' '.$child->last_name, '-');
+            $child->slug = Str::slug($child->first_name . ' ' . $child->last_name, '-');
             // $child->school_id = request()->school->id;
         });
     }

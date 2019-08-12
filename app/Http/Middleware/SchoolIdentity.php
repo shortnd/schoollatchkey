@@ -16,7 +16,7 @@ class SchoolIdentity
      */
     public function handle($request, Closure $next)
     {
-        if ($request->route('tenant')) {
+        if ($request->route('school')) {
             $request->route()->forgetParameter('school');
             return $next($request);
         }

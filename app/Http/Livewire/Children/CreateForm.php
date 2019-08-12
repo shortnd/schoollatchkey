@@ -10,12 +10,12 @@ class CreateForm extends Component
 {
     public $first_name;
     public $last_name;
-    public $school;
+    // public $school;
 
-    public function mount($school)
-    {
-        $this->school = $school;
-    }
+    // public function mount($school)
+    // {
+    //     $this->school = $school;
+    // }
 
     public function saveChild()
     {
@@ -27,10 +27,9 @@ class CreateForm extends Component
         Child::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'school_id' => request()->school->id,
         ]);
 
-        $this->redirect(route('school:school.index', $this->school));
+        $this->redirect(route('school:school.index'));
     }
 
     public function render()

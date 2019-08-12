@@ -36,8 +36,8 @@ class SchoolDatabase implements ShouldQueue
      */
     public function handle()
     {
-        $database = 'tenant_'. $this->school->id;
-        $connection = \DB::connection('tenant');
+        $database = 'school_'. $this->school->id;
+        $connection = \DB::connection('school');
         $createDatabase = $connection->statement('CREATE DATABASE '. $database);
 
         if ($createDatabase) {
@@ -52,7 +52,7 @@ class SchoolDatabase implements ShouldQueue
     private function migrate()
     {
         $migrator = app('migrator');
-        $migrator->setConnection('tenant');
+        $migrator->setConnection('school');
 
         if (! $migrator->repositoryExists()) {
             $migrator->getRepository()->createRepository();

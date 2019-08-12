@@ -15,26 +15,26 @@ class SchoolServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $manager = new SchoolManager;
+        // $manager = new SchoolManager;
 
-        $this->app->instance(SchoolManager::class, $manager);
-        $this->app->bind(School::class, function () use ($manager) {
-            return $manager->getSchool();
-        });
+        // $this->app->instance(SchoolManager::class, $manager);
+        // $this->app->bind(School::class, function () use ($manager) {
+        //     return $manager->getSchool();
+        // });
 
-        $this->app['db']->extends('tenant', function ($config, $name) use ($manager){
-            $school = $manager->getSchool();
+        // $this->app['db']->extends('tenant', function ($config, $name) use ($manager){
+        //     $school = $manager->getSchool();
 
-            if ($school) {
-                $config['database'] = 'tenant_'.$school->id;
-            }
+        //     if ($school) {
+        //         $config['database'] = 'school_'.$school->id;
+        //     }
 
-            return $this->app['db.factory']->make($config, $name);
-        });
+        //     return $this->app['db.factory']->make($config, $name);
+        // });
 
-        view()->composer('*', function ($view, $manager) {
-            $view->tenant = $manager->getSchool();
-        });
+        // view()->composer('*', function ($view, $manager) {
+        //     $view->tenant = $manager->getSchool();
+        // });
     }
 
     /**

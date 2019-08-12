@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
 use App\School;
+use App\Services\SchoolManager;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $manager = new SchoolManager;
+
+        $this->app->instance(SchoolManager::class, $manager);
+        $this->app->bind(School::class, function () use ($manager) {
+            return $manager->getSchool();
+        });
+
+        $this->app['db']->extend('school', function ($config, $name) use ($manager) {
+            $school = $manager->getSchool();
+
+            if ($school) {
+                $config['database'] = 'school_' . $school->id;
+            }
+
+            return $this->app['db.factory']->make($config, $name);
+        });
+
+        view()->composer('*', function ($view) use ($manager) {
+            $view->school = $manager->getSchool();
+        });
     }
 
     /**
@@ -26,11 +46,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::bind('school', function ($value) {
-            return \App\School::where('slug', $value)->first();
-        });
-        View::composer('*', function ($view) {
-            $view->school = request()->school;
-        });
+        // Route::bind('school', function ($value) {
+        //     return \App\School::where('slug', $value)->first();
+        // });
+        // View::composer('*', function ($view) {
+        //     $view->school = request()->school;
+        // });
     }
 }

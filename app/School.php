@@ -45,14 +45,19 @@ class School extends Model
             $school->slug = Str::lower($school->name);
             $school->owner_id = auth()->id();
         });
+
+        static::created(function ($school) {
+            SchoolDatabase::dispatch($school, app('App\Services\SchoolManager'));
+            // dd(app('App\Services\SchoolManager'));
+        });
     }
+
+    // public function route($name, $parameters = [], $absolute = true) {
+    //     return app('url')->route($name, array_merge([$this->slug], $parameters), $absolute);
+    // }
 
     public function getRouteKeyName()
     {
         return 'slug';
-    }
-
-    public function route($name, $parameters = [], $absolute = true) {
-        return app('url')->route($name, array_merge([$this->slug], $parameters), $absolute);
     }
 }

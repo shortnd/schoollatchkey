@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Child;
-use App\School;
+// use App\School;
 use Illuminate\Http\Request;
 
 class SchoolChildrenController extends Controller
 {
 
-    public function index(School $school)
+    public function index()
     {
-        return view('child.index')->with('children', $school->children);
+        dd(Child::all());
     }
 
     public function create()
@@ -19,7 +19,7 @@ class SchoolChildrenController extends Controller
         return view('child.create');
     }
 
-    public function store(Request $request, School $school)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'first_name' => 'required',
@@ -29,10 +29,9 @@ class SchoolChildrenController extends Controller
         Child::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'school_id' => $school->id
         ]);
 
-        return redirect(route('school:school.index', $school));
+        return redirect(route('school:school.index'));
     }
 
     public function show(School $school, Child $child)
