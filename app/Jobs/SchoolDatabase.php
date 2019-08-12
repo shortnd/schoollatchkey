@@ -3,8 +3,10 @@
 namespace App\Jobs;
 
 use App\School;
-use App\Services\SchoolManager;
 use Illuminate\Bus\Queueable;
+use App\Services\SchoolManager;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -36,17 +38,42 @@ class SchoolDatabase implements ShouldQueue
      */
     public function handle()
     {
-        $database = 'school_'. $this->school->id;
-        $connection = \DB::connection('school');
-        $createDatabase = $connection->statement('CREATE DATABASE '. $database);
+        $database = "school_{$this->school->id}";
+        $connection = DB::connection('school');
+        Log::alert('Database name: '.$connection->getDatabaseName());
+        $connection->setDatabaseName(null);
+        Log::alert('Connection: '. json_encode($connection));
+        Log::alert('Database Name: '. $connection->getDatabaseName());
+
+        if ($this->exists($connection, $database)) {
+            Log::alert('Database already exits, dropping');
+            $connection->statement("DROP DATABASE {$database}");
+        }
+
+        Log::alert("Creating database: {$database}");
+        $createDatabase = $connection->statement("CREATE DATABASE {$database}");
 
         if ($createDatabase) {
+            Log::alert('Database created successfully');
             $this->schoolManager->setSchool($this->school);
+            $config['database'] = 'school_'. $this->school->id;
             $connection->reconnect();
-            $this->migrate();
-        } else {
-            $connection->statement('DROP DATABASE '. $database);
+            Log::alert('Running migrations');
+            $this->migrate($database);
+            Log::alert('Success!!');
         }
+        // $database = 'school_'. $this->school->id;
+        // $connection = \DB::connection('school');
+        // // $createDatabase = $connection->statement('CREATE DATABASE '. $database);
+        // $createDatabase = DB::connection('shared')->getPdo()->exec("CREATE DATABASE IF NOT EXISTS `{$database}`");
+
+        // if ($createDatabase) {
+        //     $this->schoolManager->setSchool($this->school);
+        //     $connection->reconnect();
+        //     $this->migrate();
+        // } else {
+        //     $connection->statement('DROP DATABASE '. $database);
+        // }
     }
 
     private function migrate()
