@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\School;
 use App\Services\SchoolManager;
 use Illuminate\Console\Command;
 

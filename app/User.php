@@ -39,13 +39,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function children()
-    {
-        if (!$this->hasRole('parent')) {
-            return;
-        }
-        return $this->belongsToMany(Child::class);
-    }
+    // public function children()
+    // {
+    //     if (!$this->hasRole('parent')) {
+    //         return;
+    //     }
+    //     return $this->belongsToMany(Child::class);
+    // }
 
     // public function school()
     // {

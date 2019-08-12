@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\School;
+use App\Jobs\SchoolDatabase;
 use Illuminate\Http\Request;
+use App\Services\SchoolManager;
 use App\ViewModels\SchoolViewModel;
 use Illuminate\Support\Facades\Validator;
 
 class SchoolController extends Controller
 {
-     public function __construct()
-     {
-         return $this->middleware('auth');
-     }
+    public function __construct()
+    {
+        //  return $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -107,15 +109,23 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {
+        // dd(app());
         $this->validate($request, [
             'name' => 'required|max:255',
             'state' => 'required|min:2|max:2'
         ]);
 
-        School::create([
+        $school = School::create([
             'name' => $request->name,
             'state' => $request->state,
         ]);
+
+        $manager = new SchoolManager;
+
+        SchoolDatabase::dispatch(
+            $school,
+            $manager
+        );
 
         return redirect(route('schools.index'));
     }

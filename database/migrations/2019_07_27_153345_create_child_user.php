@@ -15,8 +15,8 @@ class CreateChildUser extends Migration
     {
         Schema::create('child_user', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('child_id');
-            $table->foreign('child_id')->references('id')->on('children')->onDelete('CASCADE');
+            // $table->unsignedBigInteger('child_id');
+            // $table->foreign('child_id')->references('id')->on('children')->onDelete('CASCADE');
             $table->unsignedBigInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();

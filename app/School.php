@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Jobs\SchoolDatabase;
+use App\Services\SchoolManager;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
@@ -12,28 +14,28 @@ class School extends Model
 
     protected $guarded = ['slug', 'school_id'];
 
-    public function children()
-    {
-        return $this->hasMany(Child::class);
-    }
+    // public function children()
+    // {
+    //     return $this->hasMany(Child::class);
+    // }
 
-    public function addChild($request)
-    {
-        $this->children()->create($request);
-    }
+    // public function addChild($request)
+    // {
+    //     $this->children()->create($request);
+    // }
 
 
-    public function checkins()
-    {
-        return $this->hasManyThrough(
-            Checkin::class,
-            Child::class,
-            'school_id',
-            'child_id',
-            'id',
-            'id'
-        );
-    }
+    // public function checkins()
+    // {
+    //     return $this->hasManyThrough(
+    //         Checkin::class,
+    //         Child::class,
+    //         'school_id',
+    //         'child_id',
+    //         'id',
+    //         'id'
+    //     );
+    // }
 
     protected static function boot()
     {
