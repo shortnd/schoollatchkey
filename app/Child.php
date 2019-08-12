@@ -8,6 +8,8 @@ use App\Scopes\SchoolOwnedScope;
 
 class Child extends Model
 {
+    protected $table = 'tenant';
+
     protected $guarded = [];
 
     public function checkins()
@@ -15,15 +17,15 @@ class Child extends Model
         return $this->hasMany(Checkin::class);
     }
 
-    public function school()
-    {
-        return $this->belongsTo(School::class);
-    }
+    // public function school()
+    // {
+    //     // return $this->belongsTo(School::class);
+    // }
 
-    public function parents()
-    {
-        return $this->belongsToMany(User::class);
-    }
+    // public function parents()
+    // {
+    //     return $this->belongsToMany(User::class);
+    // }
 
     public static function boot()
     {

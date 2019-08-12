@@ -28,6 +28,7 @@ Route::group(['prefix' => '/{user}'], function () {
 });
 Route::group([
     'prefix' => '/{school}',
+    'middleware' => \App\Http\Middleware\IdentifySchool::class,
     'as' => 'school:',
 ], function () {
     // Route::get('/', function () {
