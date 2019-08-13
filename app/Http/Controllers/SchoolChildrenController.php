@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Child;
-// use App\School;
+use App\Services\SchoolManager;
 use Illuminate\Http\Request;
 
 class SchoolChildrenController extends Controller
 {
+
+    protected $school;
+
+    public function __construct(SchoolManager $schoolManager)
+    {
+        $this->school = $schoolManager->getSchool();
+    }
 
     public function index()
     {
@@ -31,11 +38,16 @@ class SchoolChildrenController extends Controller
             'last_name' => $request->last_name,
         ]);
 
-        return redirect(route('school:school.index'));
+        return redirect(route('school:school.index', $this->school));
     }
 
-    public function show(School $school, Child $child)
+    public function show(string $slug)
     {
-        dd($child);
+        try {
+            $child = Child::where('slug', '=', $slug)->first();
+            dd($child);
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 }

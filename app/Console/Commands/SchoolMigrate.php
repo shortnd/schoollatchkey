@@ -51,6 +51,7 @@ class SchoolMigrate extends Command
         foreach ($schools as $school) {
             $this->schoolManager->setSchool($school);
             \DB::connection('school')->reconnect();
+            \DB::purge();
             $this->migrate();
         }
     }
@@ -58,9 +59,9 @@ class SchoolMigrate extends Command
     protected function migrate()
     {
         $this->prepareDatabase();
-        $this->migrator->run(database_path('migrations/tenants'));
+        $this->migrator->run(database_path('migrations/tenants'), []);
 
-        foreach ($this->migrator->setOutput($this->getOutput()) as $note) {
+        foreach ($this->migrator->setOutput($this->output) as $note) {
             $this->output->writeln($note);
         }
     }

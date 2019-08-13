@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\School;
 use App\Services\SchoolManager;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app['db']->extend('school', function ($config, $name) use ($manager) {
-            $school = $manager->getSchool();
+            $school = $manager->getschool();
 
             if ($school) {
                 $config['database'] = 'school_' . $school->id;

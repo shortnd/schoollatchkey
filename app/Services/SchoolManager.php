@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use App\School;
@@ -21,6 +20,7 @@ class SchoolManager {
     public function loadSchool(string $identifier): bool
     {
         $school = School::query()->where('slug', '=', $identifier)->first();
+
         if ($school) {
             $this->setSchool($school);
             return true;

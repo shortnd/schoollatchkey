@@ -20,7 +20,6 @@ class SchoolIdentity
             $request->route()->forgetParameter('school');
             return $next($request);
         }
-//        return $next($request);
-        throw new NotFoundHttpException;
+        abort(404);
     }
 }

@@ -14,7 +14,7 @@ class ChildController extends Controller
      */
     public function index()
     {
-        //
+        dd(Child::all());
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Jobs\SchoolDatabase;
 use Illuminate\Http\Request;
 use App\Services\SchoolManager;
 use App\ViewModels\SchoolViewModel;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 
 class SchoolController extends Controller
@@ -23,6 +24,7 @@ class SchoolController extends Controller
      */
     public function index()
     {
+        // dd(app('migrator')->run('tenants:migrate'));
         return view('schools.index')->with('schools', School::all());
     }
 
@@ -109,23 +111,24 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(app());
         $this->validate($request, [
             'name' => 'required|max:255',
             'state' => 'required|min:2|max:2'
         ]);
+
+        $manager = app(\App\Services\SchoolManager::class);
 
         $school = School::create([
             'name' => $request->name,
             'state' => $request->state,
         ]);
 
-        $manager = new SchoolManager;
-
         SchoolDatabase::dispatch(
             $school,
             $manager
         );
+
+        Artisan::call('schools:migrate');
 
         return redirect(route('schools.index'));
     }

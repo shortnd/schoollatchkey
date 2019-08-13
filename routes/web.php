@@ -33,8 +33,9 @@ Route::group([
 ], function () {
     // Route::get('/', function () {
     // })->name('school.index');
-    Route::get('/', 'SchoolChildrenController@index')->name('school.index');
-    Route::get('create', 'SchoolChildrenController@create')->name('children.create');
-    Route::post('/', 'SchoolChildrenController@store')->name('children.store');
-    Route::get('{child}', 'SchoolChildrenController@show')->name('children.show');
+    // Route::get('/', 'SchoolChildrenController@index')->name('school.index');
+    // Route::get('create', 'SchoolChildrenController@create')->name('children.create');
+    // Route::post('/', 'SchoolChildrenController@store')->name('children.store');
+    // Route::get('{slug}', 'SchoolChildrenController@show')->name('children.show');
+    Route::resource('children', 'ChildController');
 });

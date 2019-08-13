@@ -32,7 +32,6 @@ class Child extends Model
 
         static::creating(function ($child) {
             $child->slug = Str::slug($child->first_name . ' ' . $child->last_name, '-');
-            // $child->school_id = request()->school->id;
         });
     }
 
