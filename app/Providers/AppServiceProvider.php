@@ -6,6 +6,7 @@ use App\School;
 use App\Services\SchoolManager;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,6 +38,18 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) use ($manager) {
             $view->school = $manager->getSchool();
         });
+
+        Gate::before(function ($user, $school) {
+            return $user->school->id == $school->id;
+        });
+        // Gate::before('view-school', function ($user) {
+        //     dd(app(App\Services\SchoolManager::class));
+        //     // return $user->school->id == $school->id;
+        // });
+
+        // Gate::define('view-school', function ($user, $school) {
+        //     return $user->school->id == $school->id;
+        // });
     }
 
     /**

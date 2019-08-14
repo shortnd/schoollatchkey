@@ -14,7 +14,7 @@ class SchoolController extends Controller
 {
     public function __construct()
     {
-        //  return $this->middleware('auth');
+        return $this->middleware('auth');
     }
 
     /**
@@ -24,7 +24,6 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        // dd(app('migrator')->run('tenants:migrate'));
         return view('schools.index')->with('schools', School::all());
     }
 
@@ -121,7 +120,10 @@ class SchoolController extends Controller
         $school = School::create([
             'name' => $request->name,
             'state' => $request->state,
+            'owner_id' => auth()->id()
         ]);
+
+        auth()->user()->update(['school_id' => $school->id]);
 
         SchoolDatabase::dispatch(
             $school,
