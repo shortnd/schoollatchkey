@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         // 'role' => \App\Http\Middleware\CheckRole::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+        'school' => \App\Http\Middleware\IdentifySchool::class,
     ];
 
     /**
@@ -74,6 +75,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewarePriority = [
+        \App\Http\Middleware\IdentifySchool::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\Authenticate::class,

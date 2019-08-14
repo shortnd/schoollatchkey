@@ -18,7 +18,9 @@ class SchoolChildrenController extends Controller
 
     public function index()
     {
-        dd(Child::all());
+        $children = Child::all()->load('todayCheckin');
+
+        return view('child.index')->with('children', $children);
     }
 
     public function create()

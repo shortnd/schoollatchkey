@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Child;
+use App\Services\SchoolManager;
 use Illuminate\Http\Request;
 
 class ChildController extends Controller
 {
+    private $school;
+    public function __construct(SchoolManager $schoolManager)
+    {
+        $this->school = $schoolManager->getSchool();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +30,7 @@ class ChildController extends Controller
      */
     public function create()
     {
-        //
+        return view('child.create');
     }
 
     /**
@@ -35,7 +41,14 @@ class ChildController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $this->validate($request, [
+            'first_name' => 'required|min:2|max:255',
+            'last_name' => 'required|min:2|max:255'
+        ]);
+
+        Child::create($validatedData);
+
+        return redirect(route('school:school.index', $this->school));
     }
 
     /**
@@ -46,7 +59,7 @@ class ChildController extends Controller
      */
     public function show(Child $child)
     {
-        //
+        dd($child);
     }
 
     /**

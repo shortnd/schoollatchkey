@@ -16,15 +16,18 @@ class Child extends Model
         return $this->hasMany(Checkin::class);
     }
 
-    // public function school()
-    // {
-    //     // return $this->belongsTo(School::class);
-    // }
+    public function todayCheckin()
+    {
+        return $this->hasOne(Checkin::class);
+    }
 
-    // public function parents()
-    // {
-    //     return $this->belongsToMany(User::class);
-    // }
+    public function checkInToday()
+    {
+        // return true;
+        return ($this->todayCheckin->am_in || $this->todayCheckin->pm_in);
+        // return $this->todayCheckin();
+        // return ($this->todayCheckin->am_in || $this->todayCheckin->pm_in);
+    }
 
     public static function boot()
     {
@@ -32,6 +35,10 @@ class Child extends Model
 
         static::creating(function ($child) {
             $child->slug = Str::slug($child->first_name . ' ' . $child->last_name, '-');
+        });
+
+        static::created(function ($child) {
+            $child->checkins()->create();
         });
     }
 

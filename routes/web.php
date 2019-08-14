@@ -1,17 +1,4 @@
 <?php
-use Illuminate\Support\Facades\Config;
-use App\School;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,16 +13,24 @@ Route::group(['prefix' => 'users'], function () {
 Route::group(['prefix' => '/{user}'], function () {
     Route::get('profile', 'UserProfileController@index')->name('user.profile-index');
 });
+
 Route::group([
     'prefix' => '/{school}',
-    'middleware' => \App\Http\Middleware\IdentifySchool::class,
+    'middleware' => 'school',
     'as' => 'school:',
 ], function () {
-    // Route::get('/', function () {
-    // })->name('school.index');
-    // Route::get('/', 'SchoolChildrenController@index')->name('school.index');
-    // Route::get('create', 'SchoolChildrenController@create')->name('children.create');
-    // Route::post('/', 'SchoolChildrenController@store')->name('children.store');
-    // Route::get('{slug}', 'SchoolChildrenController@show')->name('children.show');
-    Route::resource('children', 'ChildController');
+    Route::get('/', 'SchoolChildrenController@index')->name('school.index');
+    // Route::resource('children', 'ChildController');
+    Route::get('add-child', 'ChildController@create')->name('children.create');
+    Route::post('add-child', 'ChildController@store')->name('children.store');
+    Route::group([
+        'prefix' => '/{child}',
+        'as' => 'children.'
+    ], function () {
+        Route::get('/', 'ChildController@show')->name('show');
+        Route::delete('delete', 'ChildController@destroy')->name('destory');
+        Route::patch('am-in', 'ChildCheckinController@amCheckin')->name('am-in');
+        Route::patch('pm-in', 'ChildCheckinController@pmCheckin')->name('pm-in');
+        Route::patch('pm-out', 'ChildCheckinController@pmCheckout')->name('pm-out');
+    });
 });

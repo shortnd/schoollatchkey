@@ -28,6 +28,7 @@ class IdentifySchool
             return $next($request);
         }
 
-        throw new NotFoundHttpException;
+        // throw new NotFoundHttpException;
+        abort(404);
     }
 }
