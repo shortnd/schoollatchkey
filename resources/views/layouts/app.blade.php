@@ -73,6 +73,13 @@
         </nav>
 
         <main class="py-4">
+            <div class="container">
+                @error('school')
+                <div class="alert alert-danger" role="alert">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
             @yield('content')
         </main>
     </div>

@@ -132,7 +132,7 @@ class SchoolController extends Controller
 
         Artisan::call('schools:migrate');
 
-        return redirect(route('schools.index'));
+        return redirect(route('school:school.index', $school));
     }
 
     /**
