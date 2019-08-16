@@ -17,6 +17,6 @@ class Invitation extends Model
 
     public function getLink()
     {
-        return urldecode(route('register') . '?invitation_token=' . $this->invitation_token);
+        return urldecode(route('school:show-registration', app(\App\Services\SchoolManager::class)->getSchool()) . '?invitation_token=' . $this->invitation_token);
     }
 }
