@@ -35,5 +35,7 @@ Route::group([
     });
     // Register Request Route
     Route::get('register/request', 'Auth\SchoolRegisterController@requestInvitation')->name('request.invitation');
-    Route::post('invitations', 'SchoolInvitationController@store')->name('store-invitation');
+    Route::get('invitations', 'Auth\SchoolInvitationController@index')->name('show-invitations');
+    Route::post('invitations', 'Auth\SchoolInvitationController@store')->name('store-invitation');
+    Route::get('register', 'Auth\SchoolInvitationController@showREgistrationForm')->name('show-registration')->middleware('hasInvitation');
 });

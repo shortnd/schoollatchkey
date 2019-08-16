@@ -64,7 +64,9 @@
             @endforeach
         @else
             <h2 class="h4 text-center">No Children in this school</h2>
+            @auth
             <a href="{{ route('school:children.create', $school) }}">Add Children</a>
+            @endauth
         @endif
     </div>
     <script>

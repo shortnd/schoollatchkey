@@ -23,7 +23,7 @@
                     <div class="card-body">
                         {{ $school->name }} is a closed community. You must have an initation link to register. You can request your link below.
 
-                        <form action="{{ route('store-invitation', $school) }}" class="form-horizontal" method="POST">
+                        <form action="{{ route('school:store-invitation', $school) }}" class="form-horizontal" method="POST">
                             @csrf
 
                             <div class="form-group">
