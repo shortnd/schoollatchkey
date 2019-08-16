@@ -33,4 +33,7 @@ Route::group([
         Route::patch('pm-in', 'ChildCheckinController@pmCheckin')->name('pm-in');
         Route::patch('pm-out', 'ChildCheckinController@pmCheckout')->name('pm-out');
     });
+    // Register Request Route
+    Route::get('register/request', 'Auth\SchoolRegisterController@requestInvitation')->name('request.invitation');
+    Route::post('invitations', 'SchoolInvitationController@store')->name('store-invitation');
 });
