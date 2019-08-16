@@ -24,6 +24,7 @@ class SchoolController extends Controller
      */
     public function index()
     {
+        // dd(School::where('id', auth()->school->id)->get());
         return view('schools.index')->with('schools', School::all());
     }
 
