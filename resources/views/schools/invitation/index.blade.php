@@ -10,7 +10,7 @@
                 Pending Requested <span class="badge">{{ count($invitations) }}</span>
             </div>
             <div class="card-body">
-                @unless (empty($invitations))
+                @unless (!empty($invitations))
                     <p>No invitations requested!</p>
                 @else
                     <table class="table-responsive table-striped">

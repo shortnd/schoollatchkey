@@ -6,23 +6,35 @@ use App\Http\Requests\SchoolInvitationRequest;
 use App\Http\Controllers\Controller;
 use App\Invitation;
 use App\School;
+use App\Services\SchoolManager;
 use Illuminate\Http\Request;
 
 class SchoolInvitationController extends Controller
 {
-    public function index()
+    protected $school;
+
+    public function __construct()
     {
-        return view('schools.invitations.index')->with('invitations', Invitation::where('registered_at', null)->orderBy('created_at', 'desc')->get());
+        $this->school = app(\App\Services\SchoolManager::class);
     }
 
-    public function store(SchoolInvitationRequest $schoolInvitationRequest, Request $request)
+    public function index()
     {
-        $invitaion = new Invitation($schoolInvitationRequest->all());
+        return view('schools.invitation.index')->with('invitations', Invitation::where('registered_at', null)->orderBy('created_at', 'desc')->get());
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|unique:invitations'
+        ]);
+
+        $invitaion = new Invitation($request->only('email'));
         $invitaion->generateInvitationToken();
-        $invitaion->school_id = $request->school->id;
+        $invitaion->school_id = $this->school->getSchool()->id;
         $invitaion->save();
 
-        return redirect()->route('requestInvitation')->with('success', 'Invitation to register succesfully requested. Please wait for the registration link to be emailed to you.');
+        return redirect()->route('school:request-invitation')->with('success', 'Invitation to register succesfully requested. Please wait for the registration link to be emailed to you.');
     }
 
     public function showRegistrationForm(Request $request)
