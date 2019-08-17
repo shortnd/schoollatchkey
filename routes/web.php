@@ -3,7 +3,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Auth::routes(['register' => false]);
+Auth::routes([
+    'register' => false
+]);
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('schools', 'SchoolController');
 Route::resource('users', 'UserController');
@@ -29,6 +31,9 @@ Route::group([
     Route::post('invitations', 'Auth\SchoolInvitationController@store')->name('store-invitation');
     Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('show-registration')->middleware('hasInvitation');
     Route::get('current-requests', 'SchoolRequestController@index')->name('current-request');
+    Route::post('register', 'Auth\RegisterController@register')->name('register');
+    Route::get('success', 'Auth\SchoolRegisteredController@success')->name('auth-success');
+    Auth::routes(['register' => false]);
     Route::group([
         'prefix' => '/{child}',
         'as' => 'children.'

@@ -9,14 +9,17 @@
 
                 <div class="card-body">
                     {{-- TODO: Find out why this is broken --}}
-                    <form method="POST" action="{{ route('register', $school) }}">
+                    <form method="POST" action="{{ route('school:register', $school) }}">
                         @csrf
+
+                        {{-- {{ request('invitation_token') }} --}}
+                        <input type="hidden" name="invitation_token" value="{{ request('invitation_token') }}">
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                {{-- <input type="email" class="form-control disabled" value="{{ $email }}" disabled> --}}
+                                <input type="email" class="form-control disabled" value="{{ $email }}" disabled>
                                 <input id="email" type="hidden" class="form-control disabled" name="email" value="{{ $email }}">
 
                                 @error('email')

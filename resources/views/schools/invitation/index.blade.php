@@ -13,7 +13,7 @@
                 @unless (!empty($invitations))
                     <p>No invitations requested!</p>
                 @else
-                    <table class="table-responsive table-striped">
+                    <table class="table table-responsive table-striped">
                         <thead>
                             <tr>
                                 <th>Email</th>

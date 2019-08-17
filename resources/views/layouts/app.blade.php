@@ -23,9 +23,15 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
+                @guest
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                @else
+                <a class="navbar-brand" href="{{ route('school:school.index', $school) }}">
+                    {{ config('app.name', 'Laravel') }}
+                </a>
+                @endguest
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -41,7 +47,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                @unless ($school)
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                @else
+                                    <a class="nav-link" href="{{ route('school:login', $school) }}">{{ __('Login') }}</a>
+                                @endunless
                             </li>
                             @if (Route::has('school:show-registration') && $school)
                                 <li class="nav-item">
@@ -53,7 +63,7 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
+                                @unless ($school)
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -65,6 +75,19 @@
                                         @csrf
                                     </form>
                                 </div>
+                                @else
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('school:logout', $school) }}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('school:logout', $school) }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                                @endunless
                             </li>
                         @endguest
                     </ul>
