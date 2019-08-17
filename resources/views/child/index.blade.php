@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
+        @auth
         @if ($children->count())
-
             @foreach($children as $child)
             <div class="card mb-3">
                 <div class="card-header">
@@ -68,6 +68,9 @@
             <a href="{{ route('school:children.create', $school) }}">Add Children</a>
             @endauth
         @endif
+        @else
+            <h2 class="text-center">Have an account <a href="{{ route('login') }}">Login</a> or Request Registration <a href="{{ route('school:request-invitation', $school) }}">here</a></h2>
+        @endauth
     </div>
     <script>
         // const time = setInterval(() => {
