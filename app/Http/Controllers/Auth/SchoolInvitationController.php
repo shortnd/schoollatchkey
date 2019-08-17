@@ -15,13 +15,15 @@ class SchoolInvitationController extends Controller
 
     public function __construct()
     {
+        // TODO: Refactor this
         $this->school = app(\App\Services\SchoolManager::class);
+        $this->middleware('guest');
     }
 
-    public function index()
-    {
-        return view('schools.invitation.index')->with('invitations', Invitation::where('registered_at', null)->orderBy('created_at', 'desc')->get());
-    }
+    // public function index()
+    // {
+    //     return view('schools.invitation.index')->with('invitations', Invitation::where('registered_at', null)->orderBy('created_at', 'desc')->get());
+    // }
 
     public function store(Request $request)
     {
@@ -34,7 +36,7 @@ class SchoolInvitationController extends Controller
         $invitaion->school_id = $this->school->getSchool()->id;
         $invitaion->save();
 
-        return redirect()->route('school:request-invitation')->with('success', 'Invitation to register succesfully requested. Please wait for the registration link to be emailed to you.');
+        return redirect()->route('school:request-invitation', $this->school->getSchool())->with('success', 'Invitation to register succesfully requested. Please wait for the registration link to be emailed to you.');
     }
 
     public function showRegistrationForm(Request $request)

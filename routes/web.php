@@ -25,7 +25,7 @@ Route::group([
     Route::post('add-child', 'ChildController@store')->name('children.store');
     // Register Request Route
     Route::get('register/request', 'Auth\SchoolRegisterController@requestInvitation')->name('request-invitation');
-    Route::get('invitations', 'Auth\SchoolInvitationController@index')->name('show-invitations');
+    Route::get('invitations', 'Auth\AuthenticatedSchoolInvitationController@index')->name('show-invitations');
     Route::post('invitations', 'Auth\SchoolInvitationController@store')->name('store-invitation');
     Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('show-registration')->middleware('hasInvitation');
     Route::get('current-requests', 'SchoolRequestController@index')->name('current-request');

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-8 offset-md-2">
                 @if (session('error'))
                     <div class="alert alert-danger">
                         {{ session('error') }}
@@ -21,13 +21,13 @@
                         Request Invitation
                     </div>
                     <div class="card-body">
-                        {{ $school->name }} is a closed community. You must have an initation link to register. You can request your link below.
+                        {{ ucfirst($school->name) }} is a closed community. You must have an initation link to register. You can request your link below.
 
                         <form action="{{ route('school:store-invitation', $school) }}" class="form-horizontal" method="POST">
                             @csrf
 
-                            <div class="form-group">
-                                <label for="email" class="col-md-4 col-form-label">E-Mail Address</label>
+                            <div class="form-group row">
+                                <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
 
                                 <div class="col-md-6">
                                     <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required autofocus>

@@ -36,20 +36,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('*', function ($view) use ($manager) {
-            $view->school = $manager->getSchool();
+            $view->school = app('App\School');
         });
 
         Gate::before(function ($user, $school) {
             return $user->school->id == $school->id;
         });
-        // Gate::before('view-school', function ($user) {
-        //     dd(app(App\Services\SchoolManager::class));
-        //     // return $user->school->id == $school->id;
-        // });
-
-        // Gate::define('view-school', function ($user, $school) {
-        //     return $user->school->id == $school->id;
-        // });
     }
 
     /**

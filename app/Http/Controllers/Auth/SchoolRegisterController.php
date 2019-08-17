@@ -12,8 +12,9 @@ class SchoolRegisterController extends Controller
 
     public function __construct(SchoolManager $schoolManager)
     {
-        $this->school = $schoolManager->getSchool();
+        $this->school = app('App\School');
     }
+
     public function requestInvitation()
     {
         return view('auth.request')->with('school', $this->school);

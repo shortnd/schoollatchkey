@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class HasInvitation
 {
+    private $school;
+
+    public function __construct()
+    {
+        $this->school = app('App\School');
+    }
     /**
      * Handle an incoming request.
      *
@@ -19,7 +25,7 @@ class HasInvitation
     {
         if ($request->isMethod('get')) {
             if (! $request->has('invitation_token')) {
-                return redirect(route('request-invitation'));
+                return redirect(route('school:request-invitation', $this->school));
             }
 
             $invitation_token = $request->get('invitation_token');
