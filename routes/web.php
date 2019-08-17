@@ -30,7 +30,6 @@ Route::group([
     Route::get('invitations', 'Auth\AuthenticatedSchoolInvitationController@index')->name('show-invitations');
     Route::post('invitations', 'Auth\SchoolInvitationController@store')->name('store-invitation');
     Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('show-registration')->middleware('hasInvitation');
-    Route::get('current-requests', 'SchoolRequestController@index')->name('current-request');
     Route::post('register', 'Auth\RegisterController@register')->name('register');
     Route::get('success', 'Auth\SchoolRegisteredController@success')->name('auth-success');
     Auth::routes(['register' => false]);

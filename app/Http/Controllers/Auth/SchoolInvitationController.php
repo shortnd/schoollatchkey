@@ -15,15 +15,9 @@ class SchoolInvitationController extends Controller
 
     public function __construct()
     {
-        // TODO: Refactor this
-        $this->school = app(\App\Services\SchoolManager::class);
+        $this->school = app('App\School');
         $this->middleware('guest');
     }
-
-    // public function index()
-    // {
-    //     return view('schools.invitation.index')->with('invitations', Invitation::where('registered_at', null)->orderBy('created_at', 'desc')->get());
-    // }
 
     public function store(Request $request)
     {
@@ -33,10 +27,10 @@ class SchoolInvitationController extends Controller
 
         $invitaion = new Invitation($request->only('email'));
         $invitaion->generateInvitationToken();
-        $invitaion->school_id = $this->school->getSchool()->id;
+        $invitaion->school_id = $this->school->id;
         $invitaion->save();
 
-        return redirect()->route('school:request-invitation', $this->school->getSchool())->with('success', 'Invitation to register succesfully requested. Please wait for the registration link to be emailed to you.');
+        return redirect()->route('school:request-invitation', $this->school)->with('success', 'Invitation to register succesfully requested. Please wait for the registration link to be emailed to you.');
     }
 
     public function showRegistrationForm(Request $request)
@@ -44,6 +38,7 @@ class SchoolInvitationController extends Controller
         $invitaion_token = $request->get('invitation_token');
         $invitation = Invitation::where('invitation_token', $invitaion_token)->firstOrFail();
         try {
+            // TODO: Can this be refactored??
             $school = School::where('id', $invitation->school_id)->first();
         } catch (\Exception $e) {
             return $e;
