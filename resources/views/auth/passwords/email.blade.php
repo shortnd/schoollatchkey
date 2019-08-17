@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
+                    @if ($school)
+                    <form method="POST" action="{{ route('school:password.email', $school) }}">
+                    @else
                     <form method="POST" action="{{ route('password.email') }}">
+                    @endif
                         @csrf
 
                         <div class="form-group row">

@@ -8,7 +8,12 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    @if ($school)
+                    <form method="POST" action="{{ route('school:login', $school) }}">
+                    @else
                     <form method="POST" action="{{ route('login') }}">
+                    @endif
+
                         @csrf
 
                         <div class="form-group row">
@@ -57,10 +62,18 @@
                                     {{ __('Login') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
+                                @if ($school)
+                                    @if (Route::has('school:password.request'))
+                                        <a class="btn btn-link" href="{{ route('school:password.request', $school) }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                    @endif
+                                @else
+                                    @if (Route::has('password.request'))
+                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                    @endif
                                 @endif
                             </div>
                         </div>

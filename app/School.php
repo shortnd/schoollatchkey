@@ -51,7 +51,8 @@ class School extends Model
         });
     }
 
-    public function route($name, $parameters = [], $absolute = true) {
+    public function route($name, $parameters = [], $absolute = true)
+    {
         return app('url')->route($name, array_merge([$this->slug], $parameters), $absolute);
     }
 

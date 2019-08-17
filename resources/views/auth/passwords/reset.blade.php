@@ -8,7 +8,11 @@
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
                 <div class="card-body">
+                    @if ($school)
                     <form method="POST" action="{{ route('password.update') }}">
+                    @else
+                    <form method="POST" action="{{ route('school:password.update', $school) }}">
+                    @endif
                         @csrf
 
                         <input type="hidden" name="token" value="{{ $token }}">

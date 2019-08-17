@@ -12,12 +12,14 @@ class AuthenticatedSchoolInvitationController extends Controller
 
     public function __construct()
     {
-        $this->school = app('App\School');
+        $this->school = app('App\Services\SchoolManager');
         $this->middleware('auth');
     }
 
     public function index()
     {
-        return view('schools.invitation.index')->with('invitations', Invitation::where('registered_at', null)->where('school_id', $this->school->id)->orderBy('created_at', 'desc')->get());
+        $school = $this->school->getSchool();
+
+        return view('schools.invitation.index')->with('invitations', Invitation::where('registered_at', null)->where('school_id', $school->id)->orderBy('created_at', 'desc')->get());
     }
 }
