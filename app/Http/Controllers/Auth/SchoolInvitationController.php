@@ -44,12 +44,12 @@ class SchoolInvitationController extends Controller
         $invitaion_token = $request->get('invitation_token');
         $invitation = Invitation::where('invitation_token', $invitaion_token)->firstOrFail();
         try {
-            $school = School::where('id', $invitaion_token->school_id)->first();
+            $school = School::where('id', $invitation->school_id)->first();
         } catch (\Exception $e) {
             return $e;
         }
         $email = $invitation->email;
 
-        return view('school.auth.register')->with(['email' => $email, 'school' => $school]);
+        return view('schools.auth.register')->with(['email' => $email, 'school' => $school]);
     }
 }
