@@ -14,6 +14,6 @@ class ChildParent extends Model
 
     public function children()
     {
-        return $this->hasMany(Child::class);
+        return $this->belongsToMany(Child::class);
     }
 }

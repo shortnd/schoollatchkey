@@ -13,7 +13,7 @@ class CreateChildParentsChildrenTable extends Migration
      */
     public function up()
     {
-        Schema::create('child_parents_children', function (Blueprint $table) {
+        Schema::create('child_child_parent', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('child_parent_id');
             $table->foreign('child_parent_id')->references('id')->on('child_parents')->onDelete('CASCADE');
