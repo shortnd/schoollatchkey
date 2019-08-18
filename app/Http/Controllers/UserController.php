@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ChildParentCreateJob;
+use App\Jobs\ChildParentDeleteJob;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -40,6 +42,9 @@ class UserController extends Controller
     {
         if (!$request->has($roleName)) {
             if ($user->hasRole($roleName)) {
+                if ($roleName == 'parent') {
+                    ChildParentDeleteJob::dispatchNow($user);
+                }
                 $user->removeRole($roleName);
             }
         }
@@ -48,6 +53,9 @@ class UserController extends Controller
                 return;
             }
             $user->assignRole($roleName);
+            if ($roleName == 'parent') {
+                ChildParentCreateJob::dispatchNow($user);
+            }
         }
     }
 

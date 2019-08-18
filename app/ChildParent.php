@@ -8,8 +8,9 @@ class ChildParent extends Model
 {
     protected $connection = 'school';
 
-    protected $guarded = [];
-    protected $fillable = ['id'];
+    protected $guarded = ['id'];
+
+    protected $fillable = ['user_id'];
 
     public function children()
     {

@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -39,7 +39,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @if ($school)
+                        @role('admin|staff')
+                        {{-- <li class="nav-item"> --}}
+                            {{-- <a href="{{ route('school:school.index', $school) }}" class="nav-link"></a> --}}
+                        {{-- </li> --}}
+                            @if ($invitations_count)
+                                <li class="nav-item">
+                                    <a href="{{ route('school:show-invitations', $school) }}" class="nav-link">View Invitations</a>
+                                </li>
+                            @endif
+                        @endrole
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -98,10 +109,33 @@
         <main class="py-4">
             <div class="container">
                 @error('school')
-                <div class="alert alert-danger" role="alert">
-                    {{ $message }}
-                </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ $message }}
+                    </div>
                 @enderror
+                @if ($invitations_count)
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" id="invitation-count" v-if="!close">
+                        There are {{ $invitations_count }} waiting for invitation email to be sent
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <script>
+                        var invitationCount = new Vue({
+                            el: '#invitation-count',
+                            data: function () {
+                                return {
+                                    close: false
+                                }
+                            },
+                            methods: {
+                                dismissAlert: function() {
+                                    this.close = true;
+                                }
+                            }
+                        })
+                    </script>
+                @endif
             </div>
             @yield('content')
         </main>

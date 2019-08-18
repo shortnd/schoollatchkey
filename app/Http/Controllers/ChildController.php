@@ -48,7 +48,7 @@ class ChildController extends Controller
 
         Child::create($validatedData);
 
-        return redirect(route('school:school.index', $this->school));
+        return redirect(route('school:school.index', app('App\School')));
     }
 
     /**
