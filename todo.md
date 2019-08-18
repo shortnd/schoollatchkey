@@ -3,6 +3,7 @@
 [x] Add Invitation registration
 [x] Verify Invitation registration works
 [x] Fix redirect to login for middleware, based on if school
+[] Add and Remove Children for each user with role parent
 [] Add Roles
 [] Add Delete to invitation table
 [] Finish Checkin

@@ -33,6 +33,13 @@ Route::group([
     Route::get('success', 'Auth\SchoolRegisteredController@success')->name('auth-success');
     Auth::routes(['register' => false]);
     Route::group([
+        'prefix' => '/parents',
+        'as' => 'parents.'
+    ], function () {
+        Route::get('/', 'ChildParentController@index')->name('index');
+        Route::get('{user}', 'ChildParentController@show')->name('show');
+    });
+    Route::group([
         'prefix' => '/{child}',
         'as' => 'children.'
     ], function () {
