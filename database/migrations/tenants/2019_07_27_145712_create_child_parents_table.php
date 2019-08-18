@@ -15,7 +15,7 @@ class CreateChildParentsTable extends Migration
     {
         Schema::create('child_parents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->index();
             $table->timestamps();
         });
     }

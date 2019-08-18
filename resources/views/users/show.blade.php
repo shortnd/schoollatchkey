@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    {{ Breadcrumbs::render('user', $user) }}
+    {{-- {{ Breadcrumbs::render('user', $user) }} --}}
     <div class="card">
         <div class="card-header">
             {{ $user->name }}
@@ -11,7 +11,7 @@
             <h2 class="h6">Email: {{ $user->email }}</h2>
         </div>
         <div class="card-footer">
-            <a href="{{ route('users.edit', $user) }}" class="btn btn-success">Edit</a>
+            <a href="{{ route('school:users.edit', [$school, $user]) }}" class="btn btn-success">Edit</a>
         </div>
     </div>
 </div>

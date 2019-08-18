@@ -8,19 +8,18 @@ Auth::routes([
 ]);
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('schools', 'SchoolController');
-Route::resource('users', 'UserController');
-Route::group(['prefix' => 'users'], function () {
-    Route::patch('{user}/update-roles', 'UserController@updateRoles')->name('user.update-roles');
-});
-Route::group(['prefix' => '/{user}'], function () {
-    Route::get('profile', 'UserProfileController@index')->name('user.profile-index');
-});
-
 Route::group([
     'prefix' => '/{school}',
     'middleware' => 'school',
     'as' => 'school:',
 ], function () {
+    Route::resource('users', 'UserController');
+    Route::group(['prefix' => 'users'], function () {
+        Route::patch('{user}/update-roles', 'UserController@updateRoles')->name('user.update-roles');
+    });
+    Route::group(['prefix' => '/{user}'], function () {
+        Route::get('profile', 'UserProfileController@index')->name('user.profile-index');
+    });
     Route::get('/', 'SchoolChildrenController@index')->name('school.index');
     // Route::resource('children', 'ChildController');
     Route::get('add-child', 'ChildController@create')->name('children.create');
