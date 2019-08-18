@@ -113,9 +113,9 @@
                         {{ $message }}
                     </div>
                 @enderror
-                @if ($invitations_count)
+                @if (isset($invitations_count))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert" id="invitation-count" v-if="!close">
-                        There are {{ $invitations_count }} waiting for invitation email to be sent
+                        There are {{ $invitations_count }} waiting for invitation email to be sent <a href="{{ route('school:show-invitations', $school) }}">invitations</a>.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

@@ -41,7 +41,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('*', function ($view) {
-            $view->invitations_count = count(Invitation::where('registered_at', null)->where('school_id', app('App\School')->id)->get());
+            if (app('App\School')) {
+                $view->invitations_count = count(Invitation::where('registered_at', null)->where('school_id', app('App\School')->id)->get());
+            }
         });
 
         Gate::before(function ($user, $school) {
