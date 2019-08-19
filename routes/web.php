@@ -38,6 +38,12 @@ Route::group([
     ], function () {
         Route::get('/', 'ChildParentController@index')->name('index');
         Route::get('{user}', 'ChildParentController@show')->name('show');
+        Route::post('{child}/attach', function () {
+            // TODO: IMPLEMENT THIS
+        });
+        Route::delete('{child}/detach', function () {
+            // TODO: IMPLEMENT THIS
+        });
     });
     Route::group([
         'prefix' => '/{child}',
