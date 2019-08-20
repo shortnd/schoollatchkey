@@ -16,4 +16,9 @@ class ChildParent extends Model
     {
         return $this->belongsToMany(Child::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'user_id';
+    }
 }

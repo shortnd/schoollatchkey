@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Child;
 use App\ChildParent;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ChildParentController extends Controller
@@ -34,8 +35,14 @@ class ChildParentController extends Controller
         if (!$user->hasRole("parent")) {
             abort(404);
         }
+        try {
+            $parent_account = ChildParent::where('user_id', $user->id)->first()->load('children');
+        } catch (ModelNotFoundException $e) {
+            throw new $e;
+        }
+        // dd($parent_account);
         $children = Child::all();
-        return view('parents.show')->with('parent', $user)->with('children', $children);
+        return view('parents.show')->with('parent', $user)->with('children', $children)->with('parent_account', $parent_account);
     }
 
     // /**

@@ -49,6 +49,9 @@
                                     <a href="{{ route('school:show-invitations', $school) }}" class="nav-link">View Invitations</a>
                                 </li>
                             @endif
+                            <li class="nav-item">
+                                <a href="{{ route('school:parents.index', $school) }}" class="nav-link">All Parents</a>
+                            </li>
                         @endrole
                         @endif
                     </ul>
@@ -121,21 +124,6 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <script>
-                        var invitationCount = new Vue({
-                            el: '#invitation-count',
-                            data: function () {
-                                return {
-                                    close: false
-                                }
-                            },
-                            methods: {
-                                dismissAlert: function() {
-                                    this.close = true;
-                                }
-                            }
-                        })
-                    </script>
                 @endif
                 @endrole
             </div>

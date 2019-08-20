@@ -5,7 +5,7 @@
         @if (count($parents))
             <ul>
             @foreach ($parents as $parent)
-                <li>{{ $parent->name }}</li>
+                <li><a href="{{ route('school:parents.show', [$school, $parent]) }}">{{ $parent->name }}</a></li>
             @endforeach
             </ul>
         @endif

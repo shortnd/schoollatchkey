@@ -3,9 +3,9 @@
 [x] Add Invitation registration
 [x] Verify Invitation registration works
 [x] Fix redirect to login for middleware, based on if school
-[] Add and Remove Children for each user with role parent
-[] Add Roles
+[x] Add and Remove Children for each user with role parent
 [] Add Delete to invitation table
+[] Add Roles
 [] Finish Checkin
 [] Add Child pivot table for users with role parent
 [] Checkout Process

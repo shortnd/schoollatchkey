@@ -19,7 +19,6 @@ class CreateChildParentsChildrenTable extends Migration
             $table->foreign('child_parent_id')->references('id')->on('child_parents')->onDelete('CASCADE');
             $table->unsignedBigInteger('child_id');
             $table->foreign('child_id')->references('id')->on('children')->onDelete('CASCADE');
-            $table->timestamps();
         });
     }
 
