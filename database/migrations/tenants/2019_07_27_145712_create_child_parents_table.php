@@ -15,11 +15,7 @@ class CreateChildParentsTable extends Migration
     {
         Schema::create('child_parents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->unsignedBigInteger('user_id')->index();
             $table->timestamps();
         });
     }

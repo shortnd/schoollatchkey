@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ChildParentCreateJob;
+use App\Jobs\ChildParentDeleteJob;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -15,7 +17,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('users.index')->with('users', User::with('roles')->get());
+        return view('users.index')->with('users', User::where('id','!=',auth()->id())->with('roles')->get());
     }
 
     public function show(User $user)
@@ -36,31 +38,32 @@ class UserController extends Controller
         //
     }
 
+    private function updateRole($request, $user, string $roleName)
+    {
+        if (!$request->has($roleName)) {
+            if ($user->hasRole($roleName)) {
+                if ($roleName == 'parent') {
+                    ChildParentDeleteJob::dispatchNow($user);
+                }
+                $user->removeRole($roleName);
+            }
+        }
+        if ($request->has($roleName)) {
+            if ($user->hasRole($roleName)) {
+                return;
+            }
+            $user->assignRole($roleName);
+            if ($roleName == 'parent') {
+                ChildParentCreateJob::dispatchNow($user);
+            }
+        }
+    }
+
     public function updateRoles(Request $request, User $user)
     {
-        if (!$request->has('parent')) {
-            if ($user->hasRole('parent')) {
-                $user->removeRole('parent');
-            }
-        } else {
-            $user->assignRole('parent');
-        }
-        if (!$request->has('staff')) {
-            if ($user->hasRole('staff')) {
-                $user->removeRole('staff');
-            }
-        } else {
-            $user->assignRole('staff');
-        }
-        if (auth()->user()->hasRole('admin')) {
-            if (!$request->has('admin')) {
-                if ($user->hasRole('admin')) {
-                    $user->removeRole('admin');
-                }
-            } else {
-                $user->assignRole('admin');
-            }
-        }
+        $this->updateRole($request, $user, 'parent');
+        $this->updateRole($request, $user, 'staff');
+        $this->updateRole($request, $user, 'admin');
         return redirect()->back();
     }
 }

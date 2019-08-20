@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Child;
+use App\ChildParent;
 use App\Services\SchoolManager;
 use Illuminate\Http\Request;
 
@@ -19,8 +20,11 @@ class SchoolChildrenController extends Controller
 
     public function index()
     {
+        if (auth()->user()->hasRole('parent')) {
+            $childParent = ChildParent::where('user_id', auth()->id())->first();
+            return view('child.index')->with('children', $childParent->children);
+        }
         $children = Child::all()->load('todayCheckin');
-
         return view('child.index')->with('children', $children);
     }
 

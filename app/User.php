@@ -44,6 +44,12 @@ class User extends Authenticatable
         return $this->belongsTo(School::class);
     }
 
+    public function children()
+    {
+        $childParent = ChildParent::where('user_id', auth()->id())->first();
+        return $childParent;
+    }
+
     // public function children()
     // {
     //     if (!$this->hasRole('parent')) {

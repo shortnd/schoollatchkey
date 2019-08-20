@@ -29,6 +29,11 @@ class Child extends Model
         // return ($this->todayCheckin->am_in || $this->todayCheckin->pm_in);
     }
 
+    public function childParent()
+    {
+        return $this->belongsToMany(ChildParent::class);
+    }
+
     public static function boot()
     {
         parent::boot();

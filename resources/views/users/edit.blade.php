@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    {{ Breadcrumbs::render('user-edit', $user) }}
+    {{-- {{ Breadcrumbs::render('user-edit', $user) }} --}}
     <div class="card">
         <div class="card-header">Edit {{ $user->name }}</div>
         <div class="card-body">
@@ -35,7 +35,7 @@
                   {{ $error }}
                 @endforeach
             @endif
-            <form action="{{ route('user.update-roles', $user) }}" method="POST">
+            <form action="{{ route('school:user.update-roles', [$school, $user]) }}" method="POST">
                 @csrf
                 @method('PATCH')
                 <fieldset>
@@ -47,9 +47,9 @@
                     </label>
                     @else
                         @unless($role->name == "admin")
-                        <label>
-                            <input type="checkbox" name="{{ $role->name }}" class="form-check-inline" {{ $user->hasRole($role->name) ? "checked" : "" }}> {{ $role->name }}
-                        </label>
+                            <label>
+                                <input type="checkbox" name="{{ $role->name }}" class="form-check-inline" {{ $user->hasRole($role->name) ? "checked" : "" }}> {{ $role->name }}
+                            </label>
                         @endunless
                     @endrole
                     <br>

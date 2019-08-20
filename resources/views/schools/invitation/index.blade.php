@@ -17,7 +17,7 @@
                         <thead>
                             <tr>
                                 <th>Email</th>
-                                <th>Created At</th>
+                                <th>Requested On</th>
                                 <th>Invitation Link</th>
                             </tr>
                         </thead>
@@ -28,7 +28,7 @@
                                         <a href="mailto:{{ $invitation->email }}">{{ $invitation->email }}</a>
                                     </td>
                                     <td>
-                                        {{ $invitation->created_at }}
+                                        {{ $invitation->created_at->format("m/d/Y") }}
                                     </td>
                                     <td>
                                         <kbd>{{ $invitation->getLink() }}</kbd>
