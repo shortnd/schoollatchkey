@@ -117,7 +117,7 @@
                     </div>
                 @enderror
                 @role('staff|admin')
-                @if (isset($invitations_count))
+                @if ($invitations_count > 0)
                     <div class="alert alert-warning alert-dismissible fade show" role="alert" id="invitation-count" v-if="!close">
                         There are {{ $invitations_count }} waiting for invitation email to be sent <a href="{{ route('school:show-invitations', $school) }}">invitations</a>.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

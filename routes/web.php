@@ -1,5 +1,7 @@
 <?php
 
+use App\Invitation;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,6 +30,7 @@ Route::group([
     Route::get('register/request', 'Auth\SchoolRegisterController@requestInvitation')->name('request-invitation');
     Route::get('invitations', 'Auth\AuthenticatedSchoolInvitationController@index')->name('show-invitations');
     Route::post('invitations', 'Auth\SchoolInvitationController@store')->name('store-invitation');
+    // Route::delete('invitations/{invitation}/delete', 'Auth\SchoolInvitationController@delete')->name('delete-invitation');
     Route::delete('invitations/{invitation}/delete', 'Auth\SchoolInvitationController@delete')->name('delete-invitation');
     Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('show-registration')->middleware('hasInvitation');
     Route::post('register', 'Auth\RegisterController@register')->name('register');

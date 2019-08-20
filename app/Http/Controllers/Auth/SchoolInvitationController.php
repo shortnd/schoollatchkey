@@ -54,6 +54,8 @@ class SchoolInvitationController extends Controller
 
     public function delete(Invitation $invitation)
     {
+        $invitation->delete();
+        return redirect()->back();
         // dd($invitation);
     }
 }
