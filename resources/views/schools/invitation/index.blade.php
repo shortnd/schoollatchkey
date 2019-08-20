@@ -19,6 +19,7 @@
                                 <th>Email</th>
                                 <th>Requested On</th>
                                 <th>Invitation Link</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,6 +33,13 @@
                                     </td>
                                     <td>
                                         <kbd>{{ $invitation->getLink() }}</kbd>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route("school:delete-invitation", [$school, $invitation]) }}" method="post">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button type="submit" class="btn btn-delete">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

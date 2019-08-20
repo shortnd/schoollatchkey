@@ -6,13 +6,13 @@ Route::get('/', function () {
 Auth::routes([
     'register' => false
 ]);
-Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('schools', 'SchoolController');
 Route::group([
     'prefix' => '/{school}',
     'middleware' => 'school',
     'as' => 'school:',
 ], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('users', 'UserController');
     Route::group(['prefix' => 'users'], function () {
         Route::patch('{user}/update-roles', 'UserController@updateRoles')->name('user.update-roles');
@@ -28,6 +28,7 @@ Route::group([
     Route::get('register/request', 'Auth\SchoolRegisterController@requestInvitation')->name('request-invitation');
     Route::get('invitations', 'Auth\AuthenticatedSchoolInvitationController@index')->name('show-invitations');
     Route::post('invitations', 'Auth\SchoolInvitationController@store')->name('store-invitation');
+    Route::delete('invitations/{invitation}/delete', 'Auth\SchoolInvitationController@delete')->name('delete-invitation');
     Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('show-registration')->middleware('hasInvitation');
     Route::post('register', 'Auth\RegisterController@register')->name('register');
     Route::get('success', 'Auth\SchoolRegisteredController@success')->name('auth-success');

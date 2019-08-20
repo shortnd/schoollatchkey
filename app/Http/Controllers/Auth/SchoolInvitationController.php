@@ -51,4 +51,9 @@ class SchoolInvitationController extends Controller
         // 'school' => $school
         ]);
     }
+
+    public function delete(Invitation $invitation)
+    {
+        // dd($invitation);
+    }
 }

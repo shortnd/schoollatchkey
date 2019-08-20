@@ -38,7 +38,7 @@
                         @csrf
                         @method('PATCH')
                         <label for="am_in" class="form-check-label">AM Checkin
-                            <input type="checkbox" name="am_in" id="am_in" onchange="this.form.submit()" checked="{{ ($child->todayCheckin->am_in ? true : false) }}>
+                            <input type="checkbox" name="am_in" id="am_in" onchange="this.form.submit()" checked="{{ ($child->todayCheckin->am_in ? true : false) }}">
                         </label>
                     </form>
                     @elseif (date('H') > 9 && date('H') < 21 && $child->todayCheckin->pm_in)
@@ -72,10 +72,4 @@
             <h2 class="text-center">Have an account <a href="{{ route('login') }}">Login</a> or Request Registration <a href="{{ route('school:request-invitation', $school) }}">here</a></h2>
         @endauth
     </div>
-    <script>
-        // const time = setInterval(() => {
-        //     const now = Date.now();
-        //     console.log(now)
-        // }, 1000)
-    </script>
 @endsection
