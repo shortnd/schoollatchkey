@@ -13,7 +13,7 @@ class ChildParentController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:admin|staff', 'auth']);
+        $this->middleware(['auth', 'role:admin|staff']);
     }
 
     /**
