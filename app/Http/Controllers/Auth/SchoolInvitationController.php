@@ -17,7 +17,7 @@ class SchoolInvitationController extends Controller
     public function __construct()
     {
         $this->school = app('App\Services\SchoolManager');
-        $this->middleware('guest');
+        $this->middleware(['role:admin|staff', 'auth'])->store(['store']);
     }
 
     public function store(Request $request)
@@ -40,22 +40,14 @@ class SchoolInvitationController extends Controller
     {
         $invitaion_token = $request->get('invitation_token');
         $invitation = Invitation::where('invitation_token', $invitaion_token)->firstOrFail();
-        // try {
-        //     $school = School::where(''$invitation->school_id)->first();
-        // } catch (\Exception $e) {
-        //     return $e;
-        // }
         $email = $invitation->email;
 
-        return view('schools.auth.register')->with(['email' => $email,
-        // 'school' => $school
-        ]);
+        return view('schools.auth.register')->with(['email' => $email]);
     }
 
     public function delete(Invitation $invitation)
     {
         $invitation->delete();
         return redirect()->back();
-        // dd($invitation);
     }
 }

@@ -28,9 +28,15 @@
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 @else
-                <a class="navbar-brand" href="{{ route('school:school.index', $school) }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                    @if ($school)
+                    <a class="navbar-brand" href="{{ route('school:school.index', $school) }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                    @else
+                    <a class="navbar-brand" href="{{ route('schools.index') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                    @endif
                 @endguest
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -70,6 +76,12 @@
                             @if (Route::has('school:show-registration') && $school)
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('school:show-registration', $school) }}">{{ __('Register') }}</a>
+                                </li>
+                            @elseif (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route("register") }}">
+                                        {{ __('Register')}}
+                                    </a>
                                 </li>
                             @endif
                         @else
@@ -117,7 +129,7 @@
                     </div>
                 @enderror
                 @role('staff|admin')
-                @if ($invitations_count > 0)
+                @if (isset($invitations_count) && $invitations_count > 0)
                     <div class="alert alert-warning alert-dismissible fade show" role="alert" id="invitation-count" v-if="!close">
                         There are {{ $invitations_count }} waiting for invitation email to be sent <a href="{{ route('school:show-invitations', $school) }}">invitations</a>.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

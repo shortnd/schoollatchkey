@@ -20,6 +20,9 @@ class SchoolChildrenController extends Controller
 
     public function index()
     {
+        if (auth()->user() == null) {
+            return view('child.index', ['children' => []]);
+        }
         if (auth()->user()->hasRole('parent')) {
             $childParent = ChildParent::where('user_id', auth()->id())->first();
             return view('child.index')->with('children', $childParent->children);

@@ -12,6 +12,7 @@ class ChildController extends Controller
     public function __construct(SchoolManager $schoolManager)
     {
         $this->school = $schoolManager->getSchool();
+        $this->middleware(['auth', 'role:admin|staff']);
     }
     /**
      * Display a listing of the resource.

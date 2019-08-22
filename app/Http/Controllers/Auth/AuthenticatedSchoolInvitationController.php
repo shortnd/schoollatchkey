@@ -13,7 +13,7 @@ class AuthenticatedSchoolInvitationController extends Controller
     public function __construct()
     {
         $this->school = app('App\Services\SchoolManager');
-        $this->middleware('auth');
+        $this->middleware(['role:admin|staff', 'auth']);
     }
 
     public function index()

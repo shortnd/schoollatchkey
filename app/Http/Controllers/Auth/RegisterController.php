@@ -70,24 +70,43 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        if (! app('App\Services\SchoolManager')->getSchool()) {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password'])
+            ]);
+
+            $user->assignRole('admin');
+
+            return $user;
+        }
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'school_id' => app('App\School')->id,
         ]);
+
+        $user->assignRole('parent');
+        return $user;
     }
 
     public function register(Request $request)
     {
+        $this->validator($request->all())->validate();
+
+        if (! app('App\Services\SchoolManager')->getSchool()) {
+            event(new Registered($this->create($request->all())));
+
+            return redirect(route('login'));
+        }
         try {
             $invitation = Invitation::where('invitation_token', $request->invitation_token)->where('registered_at', null)->first();
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withError(['token' => 'That token is now invalid']);
         }
         $invitation->update(['registered_at' => now()]);
-
-        $this->validator($request->all())->validate();
 
         event(new Registered($this->create($request->all())));
 
