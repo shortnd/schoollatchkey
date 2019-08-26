@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('users.index')->with('users', User::where('id','!=',auth()->id())->with('roles')->get());
+        return view('users.index')->with('users', User::where('id','!=', auth()->id())->where('school_id', app('App\School')->id)->with('roles')->get());
     }
 
     public function show(User $user)

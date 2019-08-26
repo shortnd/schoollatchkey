@@ -6,7 +6,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes([
-    // 'register' => false
+    'register' => false
 ]);
 Route::resource('schools', 'SchoolController');
 Route::group([
