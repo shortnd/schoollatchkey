@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Registered;
-use App\Http\Controllers\Controller;
 use App\Invitation;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use App\Jobs\ChildParentCreateJob;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RegisterController extends Controller
 {
@@ -89,6 +90,8 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole('parent');
+        ChildParentCreateJob::dispatchNow($user);
+
         return $user;
     }
 
@@ -106,6 +109,7 @@ class RegisterController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withError(['token' => 'That token is now invalid']);
         }
+
         $invitation->update(['registered_at' => now()]);
 
         event(new Registered($this->create($request->all())));

@@ -15,7 +15,12 @@ class SchoolChildrenController extends Controller
     public function __construct(SchoolManager $schoolManager)
     {
         $this->school = $schoolManager->getSchool();
-        $this->middleware(['auth','view-school', 'roles:admin|staff'])->except(['index']);
+        $this->middleware(['auth', 'view-school'], ['except' => [
+            'index'
+        ]]);
+        $this->middleware('roles:admin|staff', ['except' => [
+            'index'
+        ]]);
     }
 
     public function index()

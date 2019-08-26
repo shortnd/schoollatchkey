@@ -17,7 +17,10 @@ class SchoolInvitationController extends Controller
     public function __construct()
     {
         $this->school = app('App\Services\SchoolManager');
-        $this->middleware(['role:admin|staff', 'auth'])->store(['store']);
+        $this->middleware(['role:admin|staff', 'auth'], ['except' => [
+            'store',
+            'showRegistrationForm'
+        ]]);
     }
 
     public function store(Request $request)
@@ -25,7 +28,7 @@ class SchoolInvitationController extends Controller
         $school = $this->school->getSchool();
 
         $this->validate($request, [
-            'email' => 'required|email|unique:invitations'
+            'email' => 'required|email|unique:invitations|unique:users'
         ]);
 
         $invitaion = new Invitation($request->only('email'));

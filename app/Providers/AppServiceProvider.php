@@ -37,11 +37,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('*', function ($view) use ($manager) {
-            $view->school = app('App\School');
+            $view->school = $manager->getSchool();
         });
 
-        view()->composer('*', function ($view) {
-            if (app('App\School')) {
+        view()->composer('*', function ($view) use ($manager) {
+            if ($manager->getSchool()) {
                 $view->invitations_count = count(Invitation::where('registered_at', null)->where('school_id', app('App\School')->id)->get());
             }
         });

@@ -23,6 +23,9 @@ class SchoolMiddleware
      */
     public function handle($request, Closure $next)
     {
+        // if (! $request->user()) {
+        //     return redirect()->back()->withErrors(["school" => "You are not assigned to a school"]);
+        // }
         if ($request->user()->school->id == $this->schoolManager->getSchool()->id) {
             return $next($request);
         }
