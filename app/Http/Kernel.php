@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'jwt.verify' => \App\Http\Middleware\JWTMiddleware::class,
         'school' => \App\Http\Middleware\IdentifySchool::class,
         'view-school' => \App\Http\Middleware\SchoolMiddleware::class,
         'hasInvitation' => \App\Http\Middleware\HasInvitation::class,
@@ -84,5 +85,6 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 }
