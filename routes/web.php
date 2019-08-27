@@ -44,7 +44,6 @@ Route::group([
     Route::post('register', 'Auth\RegisterController@register')->name('register');
     Route::get('success', 'Auth\SchoolRegisteredController@success')->name('auth-success');
     Auth::routes(['register' => false]);
-    // Auth | role:admin|staff
     Route::group([
         'prefix' => '/parents',
         'as' => 'parents.',
@@ -58,7 +57,6 @@ Route::group([
     Route::group([
         'prefix' => '/{child}',
         'as' => 'children.',
-        // 'middleware' => 'auth'
     ], function () {
         Route::get('/', 'ChildController@show')->name('show');
         Route::delete('delete', 'ChildController@destroy')->name('destory');
