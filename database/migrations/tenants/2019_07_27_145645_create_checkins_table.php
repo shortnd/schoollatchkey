@@ -21,9 +21,15 @@ class CreateCheckinsTable extends Migration
             $table->unsignedInteger('late_fee')->default(0);
             $table->unsignedInteger('total')->default(0);
             $table->string('initals')->nullable();
+            // TODO: Will add Sig
+            // $table->text('pm_sig')->nullable();
             // Relationships
             $table->unsignedBigInteger('child_id');
             $table->foreign('child_id')->references('id')->on('children')->onDelete('CASCADE');
+            $table->integer('late_fee')->default(0)->max(3);
+            $table->dateTime('am_checkin_time')->nullable();
+            $table->dateTime('pm_checkin_time')->nullable();
+            $table->dateTime('pm_checkout_time')->nullable();
             $table->timestamps();
         });
     }

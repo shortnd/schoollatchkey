@@ -8,11 +8,54 @@
             <div class="card mb-3">
                 <div class="card-header">
                     {{ $child->first_name }}
+                    @if (count($child->checkin_totals) > 0)
+                        <small class="text-danger d-block">Past Due: {{ $child->pastDue() }}</small>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-4">
+                                @if (! $child->checkins->first()->am_checkin)
+                                <form action="" method="post">
+                                    @csrf
+                                    @method('PATCH')
+                                    <label for="am_checkin">AM Check In &nbsp;
+                                        <input type="checkbox"
+                                            name="am_checkin"
+                                            id="am_checkin"
+                                            {{ $child->checkins->first()->am_checkin ? 'checked' : '' }}
+                                            {{ $child->checkins->first()->am_disabled() ? 'disabled' : '' }}
+                                            onchange="this.form.submit()">
+                                    </label>
+                                </form>
+                                @else
+                                    Checked in at {{ $child->checkins->first()->amCheckinTime() }}
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                @if (! $child->checkins->first()->pm_checkin)
+                                <form action="" method="post">
+                                    @csrf
+                                    @method('PATCH')
+                                    <label for="pm_checkin">
+                                        PM Check In &nbsp;
+                                        <input type="checkbox"
+                                            name="pm_checkin"
+                                            id="pm_checkin"
+                                            {{ $child->checkins->first()->pm_checkin ? 'checked' : '' }}
+                                            {{ $child->checkins->first()->pm_disabled() ? 'disabled' : '' }}>
+                                    </label>
+                                </form>
+                                @else
+                                    Checked in today.
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                @if (! $child->checkins->first()->pm_checkout_time)
+                                @endif
+                            </div>
+                            {{-- <div class="col-md-4">
                                 Am Checkin: @if ($child->todayCheckin->am_in) {{ $child->todayCheckin->am_in }} @else No Am Checkin @endif
                             </div>
                             <div class="col-md-4">
@@ -29,7 +72,7 @@
                                     NOT CHECKIN IN FOR PM
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="card-footer">
