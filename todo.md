@@ -5,7 +5,7 @@
 [x] Fix redirect to login for middleware, based on if school
 [x] Add and Remove Children for each user with role parent
 [x] Add Delete to invitation table
-[] Add Roles and Middlewares
+[x] Add Roles and Middlewares
 [] Finish Checkin
 [] Add Child pivot table for users with role parent
 [] Checkout Process
