@@ -18,7 +18,6 @@ class CreateCheckinsTable extends Migration
             $table->dateTime('am_in')->nullable();
             $table->dateTime('pm_in')->nullable();
             $table->dateTime('pm_out')->nullable();
-            $table->unsignedInteger('late_fee')->default(0);
             $table->unsignedInteger('total')->default(0);
             $table->string('initals')->nullable();
             // TODO: Will add Sig

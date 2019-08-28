@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(SchoolSeeder::class);
+        \App\User::first()->assignRole('admin');
     }
 }
