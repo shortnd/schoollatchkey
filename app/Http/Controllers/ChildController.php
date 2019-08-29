@@ -100,4 +100,16 @@ class ChildController extends Controller
     {
         //
     }
+
+    public function updateContact(Request $request, Child $child)
+    {
+        //
+    }
+
+    public function AllCheckins(Child $child)
+    {
+        return view('school.children.all-checkins')->with('child', $child->with('checkins'));
+    }
+
+
 }

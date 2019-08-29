@@ -12,6 +12,11 @@ class Child extends Model
 
     protected $guarded = [];
 
+    public function fullName()
+    {
+        return "{$this->frist_name} {$this->last_name}";
+    }
+
     public function checkins()
     {
         return $this->hasMany(Checkin::class);
