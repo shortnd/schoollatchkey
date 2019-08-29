@@ -73,20 +73,4 @@ Route::group([
         Route::patch('pay-current-week', 'ChildPaymentController@payWeekTotal')->name('pay-current-week');
 
     });
-
-    /**
-     *  Route::get('children/weekly-totals', 'ChildController@weekly_totals')->name('weekly_totals');
-    Route::resource('children', 'ChildController');
-    Route::patch('children/{child}/update-contract', 'ChildController@updateContact')->name('update-contact');
-    Route::post('add-day/{child}', 'ChildCheckinController@addNewCheckins')->name('add_child');
-
-    // Search for past checkins
-    Route::get('{child}/search-form', 'ChildSearchController@index')->name('search-form');
-    Route::get('{child}/search-form/results', 'ChildSearchController@show')->name('search-results');
-    // Payments
-    Route::get('{child}/payment', 'ChildPaymentController@showPaymentForm')->name('show-payment-form');
-    Route::patch('{child}/pay-past-due', 'ChildPaymentController@payPastDue')->name('pay-past-due');
-    Route::patch('{child}/pay-current-week', 'ChildPaymentController@payWeekTotal')->name('pay-current-week');
-
-     */
 });
