@@ -95,24 +95,13 @@ class Child extends Model
         return $this->weeklyTotal()->total_amount;
     }
 
-    // TODO: Checkin this one and method below it
     public function weeklyCheckins()
     {
         return $this->checkins()->whereBetween('created_at', [startOfWeek(), endOfWeek()])->latest()->get();
     }
 
-    public function pastWeekCheckin()
-    {
-        $now = Carbon::now();
-        $weekStart = $now->startOfWeek()->format('Y-m-d H:i');
-        $weekEnd = $now->endOfWeek()->format('Y-m-d H:i');
-
-        return $this->checkins()->whereBetween('created_at', [$weekStart, $weekEnd])->orderBy('created_at', 'desc')->get();
-    }
-
     public function pastDue()
     {
-        // TODO: Start of week?
         return $this->checkin_totals()->where('created_at', '<', startOfWeek())->sum();
     }
 
