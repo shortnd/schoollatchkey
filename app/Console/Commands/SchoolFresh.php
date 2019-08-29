@@ -48,15 +48,14 @@ class SchoolFresh extends Command
      */
     public function handle()
     {
-        if (! $this->confirmToProceed()) {
-            return;
-        }
+        // if (! $this->confirmToProceed()) {
+        //     return;
+        // }
 
         $schools = School::all();
 
         foreach ($schools as $school) {
             $this->schoolManager->setSchool($school);
-
             \DB::connection('school')->reconnect();
             \DB::purge();
             $this->migrate();
@@ -78,8 +77,12 @@ class SchoolFresh extends Command
     {
         $this->migrator->setConnection('school');
 
-        if ($this->migrator->repositoryExists()) {
-            $this->call('migrate:fresh');
-        }
+        // TODO: Write a refresh
+        // if ($this->migrator->repositoryExists()) {
+        //     // $this->migrator->
+        //     // $this->call('migrate');
+        // } else {
+        //     $this->call('migrate:install');
+        // }
     }
 }

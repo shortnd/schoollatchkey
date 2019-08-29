@@ -32,7 +32,7 @@ class SchoolChildrenController extends Controller
             $childParent = ChildParent::where('user_id', auth()->id())->first();
             return view('child.index')->with('children', $childParent->children);
         }
-        $children = Child::all()->load('todayCheckin');
+        $children = Child::all()->load('checkins');
         return view('child.index')->with('children', $children);
     }
 

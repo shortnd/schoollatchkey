@@ -25,7 +25,7 @@ class ChildController extends Controller
      */
     public function index()
     {
-        dd(Child::all());
+        return view('schools.children.index')->with('children', Child::get());
     }
 
     /**
@@ -64,7 +64,8 @@ class ChildController extends Controller
      */
     public function show(Child $child)
     {
-        dd($child);
+        $parents = $child->childParent;
+        return view('schools.children.show')->with('child', $child)->with('parents', $parents);
     }
 
     /**
@@ -75,7 +76,7 @@ class ChildController extends Controller
      */
     public function edit(Child $child)
     {
-        //
+        return view('schools.children.edit')->with('child', $child);
     }
 
     /**
@@ -90,15 +91,16 @@ class ChildController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Child  $child
-     * @return \Illuminate\Http\Response
-     */
+    public function deletePage(Child $child)
+    {
+        return view('schools.children.delete-page')->with('child', $child);
+    }
+
     public function destroy(Child $child)
     {
-        //
+        $child->delete();
+
+        return redirect(route('school:school.index'));
     }
 
     public function updateContact(Request $request, Child $child)

@@ -18,6 +18,10 @@ class CreateChildrenTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('slug')->unique()->index();
+
+            $table->string('emergency_contact_name')->nullable();
+            $table->bigInteger('emergency_contact_phone_number')->nullable();
+            $table->string('emergency_contact_relationship')->nullable();
             $table->timestamps();
         });
     }

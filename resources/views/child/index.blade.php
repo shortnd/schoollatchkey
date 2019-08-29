@@ -18,7 +18,7 @@
                     @if (now()->format('H.m') > 6.15 && now()->format('H.m') < 7.45)
                     <div class="col-md-4">
                         @if (! $child->checkins->first()->am_checkin)
-                        <form action="" method="post">
+                        <form action="{{ route('school:children.am-in', [$school, $child]) }}" method="post">
                             @csrf
                             @method('PATCH')
                             <label for="am_checkin">AM Check In &nbsp;
@@ -32,24 +32,7 @@
                         Checked in at {{ $child->checkins->first()->amCheckinTime() }}
                         @endif
                     </div>
-                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3)
-                    <div class="col-md-4">
-                        @if (! $child->checkins->first()->pm_checkin)
-                        <form action="" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <label for="pm_checkin">
-                                PM Check In &nbsp;
-                                <input type="checkbox" name="pm_checkin" id="pm_checkin"
-                                    {{ $child->checkins->first()->pm_checkin ? 'checked' : '' }}
-                                    {{ $child->checkins->first()->pm_disabled() ? 'disabled' : '' }}>
-                            </label>
-                        </form>
-                        @else
-                        Checked in today.
-                        @endif
-                    </div>
-                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 && $child->pm_checkin)
+                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 && $child->todayCheckin()->first()->pm_checkin)
                     <div class="col-md-4">
                         @if ($child->checkins->first()->pm_checkout_time)
                         {{ $child->checkins->first()->getCheckoutTime() }}
@@ -57,8 +40,38 @@
                         {{ $child->checkins->first()->getCheckoutDiffHumans() }}
                         @elseif($child->checkins->first()->pm_checkin)
                         <strong>Student still in latchkey</strong>
+                        @error('pm-checkout')
+                            {{ $message }}
+                        @enderror
+                        <form action="{{ route('school:children.pm-out', [$school, $child]) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <label for="pm_checkout">PM checkout
+                                <input name="pm_checkout" id="pm_checkout" type="checkbox"
+                                onchange="this.form.submit()">
+                            </label>
+                        </form>
                         @else
                         <strong>Student not in afternoon latchkey</strong>
+                        @endif
+                    </div>
+                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3)
+                    <div class="col-md-4">
+                        @if (! $child->todayCheckin()->first()->pm_checkin)
+                        <form action="{{ route('school:children.pm-in', [$school, $child]) }}" method="post">
+                            @csrf
+                            @method('PATCH')
+                            <label for="pm_checkin">
+                                PM Check In &nbsp;
+                                <input type="checkbox" name="pm_checkin" id="pm_checkin"
+                                    {{ $child->checkins->first()->pm_checkin ? 'checked' : '' }}
+                                    {{ $child->checkins->first()->pm_disabled() ? 'disabled' : '' }}
+                                    onchange="this.form.submit()">
+                            </label>
+                        </form>
+                        @else
+                        Checked in today.
+                        {{ $child->checkins->first()->pm_checkin }} {{ now()->format('H.m') > 15 }} {{ now()->format('H.m') < 17.3 }}
                         @endif
                     </div>
                     @else

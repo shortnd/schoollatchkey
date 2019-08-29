@@ -82,7 +82,7 @@ class ChildCheckinController extends Controller
             // TODO: Implement upload to cloudiary
             $pm_checkout->update([
                 'pm_checkout_time' => now(),
-                'pm_sig' => $request->sig
+                // 'pm_sig' => $request->sig
             ]);
 
             $pm_diff = Carbon::parse(

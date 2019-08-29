@@ -15,9 +15,9 @@ class CreateCheckinsTable extends Migration
     {
         Schema::create('checkins', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('am_in')->nullable();
-            $table->dateTime('pm_in')->nullable();
-            $table->dateTime('pm_out')->nullable();
+            $table->boolean('am_checkin')->default(0);
+            $table->boolean('pm_checkin')->default(0);
+            $table->boolean('pm_checkout')->default(0);
             $table->unsignedInteger('total')->default(0);
             $table->string('initals')->nullable();
             // TODO: Will add Sig

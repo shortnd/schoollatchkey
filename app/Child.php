@@ -14,7 +14,7 @@ class Child extends Model
 
     public function fullName()
     {
-        return "{$this->frist_name} {$this->last_name}";
+        return "{$this->first_name} {$this->last_name}";
     }
 
     public function checkins()

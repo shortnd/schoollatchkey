@@ -4,20 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ChildParentCreateJob;
 use App\Jobs\ChildParentDeleteJob;
+use App\Services\SchoolManager;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function __construct()
+    private $schoolManager;
+
+    public function __construct(SchoolManager $schoolManager)
     {
+        $this->schoolManager = $schoolManager;
         return $this->middleware(['auth', 'role:staff|admin']);
     }
 
     public function index()
     {
-        return view('users.index')->with('users', User::where('id','!=', auth()->id())->where('school_id', app('App\School')->id)->with('roles')->get());
+        return view('users.index')->with('users', User::where('id','!=', auth()->id())->where('school_id', $this->schoolManager->getSchool()->id)->with('roles')->get());
     }
 
     public function show(User $user)

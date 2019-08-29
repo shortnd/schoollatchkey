@@ -30,7 +30,7 @@
                 @else
                     @if ($school)
                     <a class="navbar-brand" href="{{ route('school:school.index', $school) }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ $school->name }} Latchkey
                     </a>
                     @else
                     <a class="navbar-brand" href="{{ route('schools.index') }}">
@@ -47,16 +47,19 @@
                     <ul class="navbar-nav mr-auto">
                         @if ($school)
                         @role('admin|staff')
-                        {{-- <li class="nav-item"> --}}
-                            {{-- <a href="{{ route('school:school.index', $school) }}" class="nav-link"></a> --}}
-                        {{-- </li> --}}
                             @if ($invitations_count)
                                 <li class="nav-item">
                                     <a href="{{ route('school:show-invitations', $school) }}" class="nav-link">View Invitations</a>
                                 </li>
                             @endif
                             <li class="nav-item">
+                                <a href="{{ route('school:users.index', $school) }}" class="nav-link">All Users</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('school:parents.index', $school) }}" class="nav-link">All Parents</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('school:children.index', $school) }}" class="nav-link">All Children</a>
                             </li>
                         @endrole
                         @endif
@@ -85,6 +88,13 @@
                                 </li>
                             @endif
                         @else
+                            @role('admin|staff')
+                            @if ($school)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('school:children.create', [$school]) }}">Add Child</a>
+                            </li>
+                            @endif
+                            @endrole
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

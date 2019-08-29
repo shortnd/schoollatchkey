@@ -55,10 +55,22 @@ Route::group([
         Route::post('{user}/{child}/detach', 'ParentChildConnectionController@detach')->name('child-detach');
     });
     Route::group([
+        'prefix' => 'children',
+        'as' => 'children.'
+    ], function () {
+        Route::get('', 'ChildController@index')->name('index');
+        Route::get('create', 'ChildController@create')->name('create');
+        Route::post('', 'ChildController@store')->name('store');
+    });
+    Route::group([
         'prefix' => '/{child}',
         'as' => 'children.',
     ], function () {
-        Route::get('/', 'ChildController@show')->name('show');
+        Route::get('delete-page', 'ChildController@deletePage')->name('delete-page');
+        Route::get('', 'ChildController@show')->name('show');
+        Route::put('', 'ChildController@update')->name('update');
+        Route::get('edit', 'ChildController@edit')->name('edit');
+        Route::delete('delete', 'ChildController@destroy')->name('destroy');
         Route::get('all-checkins', 'ChildController@AllCheckins')->name('all-checkins');
         Route::delete('delete', 'ChildController@destroy')->name('destory');
 
