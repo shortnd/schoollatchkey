@@ -12,11 +12,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
         $manager = new SchoolManager;
@@ -51,22 +46,12 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot()
     {
         Blade::directive('diffForHumans', function ($date) {
             return Carbon::parse($date)->diffForHumans();
-            // return $date;
         });
-        // Route::bind('school', function ($value) {
-        //     return \App\School::where('slug', $value)->first();
-        // });
-        // View::composer('*', function ($view) {
-        //     $view->school = request()->school;
-        // });
+
+        Blade::include('child.components.modal', 'signituremodal');
     }
 }
