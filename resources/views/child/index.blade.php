@@ -15,8 +15,7 @@
         <div class="card-body">
             <div class="container">
                 <div class="row">
-                    @if (now()->format('H.m') > 6.15 && now()->format('H.m') < 7.45)
-                    <div class="col-md-4">
+                    @if (now()->format('H.m') > 6.15 && now()->format('H.m') < 7.45) <div class="col-md-4">
                         @if (! $child->todayCheckin()->am_checkin)
                         <form action="{{ route('school:children.am-in', [$school, $child]) }}" method="post">
                             @csrf
@@ -31,32 +30,33 @@
                         @else
                         Checked in at {{ $child->checkins->first()->amCheckinTime() }}
                         @endif
-                    </div>
-                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 && $child->todayCheckin()->pm_checkin)
+                </div>
+                @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 && $child->todayCheckin()->pm_checkin)
                     <div class="col-md-4">
                         @if ($child->checkins->first()->pm_checkout_time)
                         {{ $child->checkins->first()->getCheckoutTime() }}
                         <br>
                         {{ $child->checkins->first()->getCheckoutDiffHumans() }}
-                        @elseif($child->checkins->first()->pm_checkin)
+                        @elseif($child->todayCheckin()->pm_checkin)
                         <strong>Student still in latchkey</strong>
                         @error('pm-checkout')
-                            {{ $message }}
+                        {{ $message }}
                         @enderror
                         <form action="{{ route('school:children.pm-out', [$school, $child]) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <label for="pm_checkout">PM checkout
-                                <input name="pm_checkout" id="pm_checkout" type="checkbox"
-                                onchange="this.form.submit()">
+                                <input name="pm_checkout" id="pm_checkout" type="checkbox">
+                                @signituremodal
                             </label>
                         </form>
                         @else
+                        {{ $child->todayCheckin()->pm_checkin }}
+                        {{ now()->format('H.m') > 15 && now()->format('H.m') < 17.3 }}
                         <strong>Student not in afternoon latchkey</strong>
                         @endif
                     </div>
-                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3)
-                    <div class="col-md-4">
+                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3) <div class="col-md-4">
                         @if (! $child->todayCheckin()->pm_checkin)
                         <form action="{{ route('school:children.pm-in', [$school, $child]) }}" method="post">
                             @csrf
@@ -71,28 +71,29 @@
                         </form>
                         @else
                         Checked in today.
-                        {{ $child->checkins->first()->pm_checkin }} {{ now()->format('H.m') > 15 }} {{ now()->format('H.m') < 17.3 }}
+                        {{ $child->checkins->first()->pm_checkin }} {{ now()->format('H.m') > 15 }}
+                        {{ now()->format('H.m') < 17.3 }}
                         @endif
-                    </div>
-                    @else
-                    <h3 class="mx-auto">It is not time to checkin children to latchkey</h3>
-                    {{-- TODO: ADD OVER RIDE ROUTE FOR HALF DAYS --}}
-                    @endif
-                </div>
             </div>
+            @else
+            <h3 class="mx-auto">It is not time to checkin children to latchkey</h3>
+            {{-- TODO: ADD OVER RIDE ROUTE FOR HALF DAYS --}}
+            @endif
         </div>
-        <div class="card-footer">
-        </div>
-        @endforeach
-        @else
-        <h2 class="h4 text-center">No Children in this school</h2>
-        @auth
-        <a href="{{ route('school:children.create', $school) }}">Add Children</a>
-        @endauth
-        @endif
-        @else
-        <h2 class="text-center">Have an account <a href="{{ route('login') }}">Login</a> or Request Registration <a
-                href="{{ route('school:request-invitation', $school) }}">here</a></h2>
-        @endauth
     </div>
-    @endsection
+</div>
+<div class="card-footer">
+</div>
+@endforeach
+@else
+<h2 class="h4 text-center">No Children in this school</h2>
+@auth
+<a href="{{ route('school:children.create', $school) }}">Add Children</a>
+@endauth
+@endif
+@else
+<h2 class="text-center">Have an account <a href="{{ route('login') }}">Login</a> or Request Registration <a
+        href="{{ route('school:request-invitation', $school) }}">here</a></h2>
+@endauth
+</div>
+@endsection
