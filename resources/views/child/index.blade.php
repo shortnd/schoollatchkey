@@ -8,7 +8,7 @@
     <div class="card mb-3">
         <div class="card-header">
             {{ $child->first_name }}
-            @if (count($child->checkin_totals) > 0)
+            @if (count($child->pastDue()) > 0)
             <small class="text-danger d-block">Past Due: {{ $child->pastDue() }}</small>
             @endif
         </div>
@@ -17,7 +17,7 @@
                 <div class="row">
                     @if (now()->format('H.m') > 6.15 && now()->format('H.m') < 7.45)
                     <div class="col-md-4">
-                        @if (! $child->checkins->first()->am_checkin)
+                        @if (! $child->todayCheckin()->am_checkin)
                         <form action="{{ route('school:children.am-in', [$school, $child]) }}" method="post">
                             @csrf
                             @method('PATCH')
@@ -32,7 +32,7 @@
                         Checked in at {{ $child->checkins->first()->amCheckinTime() }}
                         @endif
                     </div>
-                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 && $child->todayCheckin()->first()->pm_checkin)
+                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 && $child->todayCheckin()->pm_checkin)
                     <div class="col-md-4">
                         @if ($child->checkins->first()->pm_checkout_time)
                         {{ $child->checkins->first()->getCheckoutTime() }}
@@ -57,7 +57,7 @@
                     </div>
                     @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3)
                     <div class="col-md-4">
-                        @if (! $child->todayCheckin()->first()->pm_checkin)
+                        @if (! $child->todayCheckin()->pm_checkin)
                         <form action="{{ route('school:children.pm-in', [$school, $child]) }}" method="post">
                             @csrf
                             @method('PATCH')

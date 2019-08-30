@@ -7,8 +7,36 @@
         <a href="{{ route('school:children.edit', [$school, $child]) }}" class="btn btn-success">Edit</a>
         <a href="{{ route('school:children.delete-page', [$school, $child]) }}" class="btn btn-danger">Delete</a>
 
-        @if (count($parents) > 0)
-            {{ json_encode($child->childParent) }}
+        @if ($today_checkin)
+        <div class="card">
+            <div class="card-header">
+                Current Day Checkin - {{ $today_checkin->created_at->format('M d') }}
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <th>
+                            Am Checkin
+                        </th>
+                        <th>
+                            Pm Checkin
+                        </th>
+                        <th>
+                            Pm Checkout
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ $today_checkin->am_checkin }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @else
+            <h2>No Checkins for today</h2>
         @endif
 
         @if ($child->emergency_contact_name)

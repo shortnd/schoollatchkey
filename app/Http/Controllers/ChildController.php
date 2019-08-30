@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Child;
 use App\Services\SchoolManager;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ChildController extends Controller
 {
@@ -65,7 +66,9 @@ class ChildController extends Controller
     public function show(Child $child)
     {
         $parents = $child->childParent;
-        return view('schools.children.show')->with('child', $child)->with('parents', $parents);
+        $todayCheckin = $child->todayCheckin();
+
+        return view('schools.children.show')->with(['child' => $child, 'today_checkin' => $todayCheckin]);
     }
 
     /**
@@ -103,10 +106,10 @@ class ChildController extends Controller
         return redirect(route('school:school.index'));
     }
 
-    public function updateContact(Request $request, Child $child)
-    {
-        //
-    }
+    // public function updateContact(Request $request, Child $child)
+    // {
+    //     //
+    // }
 
     public function AllCheckins(Child $child)
     {

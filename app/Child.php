@@ -24,12 +24,12 @@ class Child extends Model
 
     public function todayCheckin()
     {
-        return $this->hasOne(Checkin::class);
+        return $this->checkins()->whereBetween('created_at', [today(), now()])->first();
     }
 
     public function checkInToday()
     {
-        return ($this->todayCheckin->am_in || $this->todayCheckin->pm_in);
+        return ($this->todayCheckin()->am_in || $this->todayCheckin()->pm_in);
     }
 
     public function childParent()
@@ -80,6 +80,11 @@ class Child extends Model
         return $this->checkin_totals()->whereBetween('created_at', [startOfWeek(), endOfWeek()])->first();
     }
 
+    public function pastDue()
+    {
+        return $this->checkin_totals()->where('total_amount', '>', 0)->get();
+    }
+
     public function weeklyAmTotalHours()
     {
         return $this->weeklyTotal()->am_total_hours;
@@ -97,26 +102,27 @@ class Child extends Model
 
     public function weeklyCheckins()
     {
-        return $this->checkins()->whereBetween('created_at', [startOfWeek(), endOfWeek()])->latest()->get();
+        return $this->checkins()->whereBetween('created_at', [startOfWeek(), endOfWeek()])->first()->get();
     }
 
-    public function pastDue()
-    {
-        return $this->checkin_totals()->where('created_at', '<', startOfWeek())->sum();
-    }
+    // public function pastDue()
+    // {
+    //     return $this->checkin_totals()->latest()->get()->sum();
+    // }
 
     public function addCheckin()
     {
+        // return $this->todayCheckin();
         if ($this->todayCheckin()) {
-            return $errors['today_checkins'] = 'Already has checkin today.';
+            return "Already has checkin today";
         } else {
-            return $this->checkins()->create();
+            $this->checkins()->create();
         }
     }
 
     public function addWeeklyTotal()
     {
-        if ($this->weeklyTotals()) {
+        if ($this->weeklyTotal()) {
             return $errors['weeklyTotal'] = 'Weekly total already created';
         } else {
             return $this->checkin_totals()->create();
