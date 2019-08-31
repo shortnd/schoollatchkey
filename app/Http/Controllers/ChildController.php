@@ -69,8 +69,17 @@ class ChildController extends Controller
         $todayCheckin = $child->todayCheckin();
         $weekCheckin = $child->checkins->whereBetween('created_at', [startOfWeek(), endOfWeek()])->take(5);
         $pastWeekCheckin = $child->checkins->whereBetween('created_at', [startOfWeek()->subWeek(), endOfWeek()->subWeek()])->take(5);
+        $currentWeekTotal = $child->weeklyTotalAmount();
+        $pastDueAmount = $child->checkin_totals->where('created_at', startOfWeek()->subWeek())->where('total_amount')->pluck('total_amount')->sum();
 
-        return view('schools.children.show')->with(['child' => $child, 'today_checkin' => $todayCheckin])->with('week_checkin', $weekCheckin)->with('past_week', $pastWeekCheckin);
+        return view('schools.children.show')->with([
+            'child' => $child,
+            'today_checkin' => $todayCheckin,
+            'week_checkin' => $weekCheckin,
+            'past_week' => $pastWeekCheckin,
+            'current_week_total' => $currentWeekTotal,
+            'past_due' => $pastDueAmount
+        ]);
     }
 
     /**

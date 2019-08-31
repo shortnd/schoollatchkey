@@ -22,6 +22,8 @@ class CreateChildrenTable extends Migration
             $table->string('emergency_contact_name')->nullable();
             $table->bigInteger('emergency_contact_phone_number')->nullable();
             $table->string('emergency_contact_relationship')->nullable();
+
+            $table->integer('payment_credit')->default(0);
             $table->timestamps();
         });
     }

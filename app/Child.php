@@ -77,12 +77,22 @@ class Child extends Model
 
     public function weeklyTotal()
     {
-        return $this->checkin_totals()->whereBetween('created_at', [startOfWeek(), endOfWeek()])->first();
+        return $this->checkin_totals->whereBetween('created_at', [startOfWeek(), endOfWeek()]);
+    }
+
+    public function weeklyTotalAmount()
+    {
+        return $this->checkin_totals()->whereBetween('created_at', [startOfWeek(), endOfWeek()])->where('total_amount', '>', 0)->sum('total_amount');
     }
 
     public function pastDue()
     {
-        return $this->checkin_totals()->where('total_amount', '>', 0)->get();
+        return $this->checkin_totals()->where('created_at', '<', startOfWeek())->where('total_amount', '>', 0)->orderBy('id', 'desc')->get();
+    }
+
+    public function pastDueAmount()
+    {
+        return $this->checkin_totals()->where('created_at', '<', startOfWeek())->where('total_amount', '>', 0)->orderBy('id', 'desc')->sum('total_amount');
     }
 
     public function weeklyAmTotalHours()
@@ -93,11 +103,6 @@ class Child extends Model
     public function weeklyCheckinTotalHours()
     {
         return $this->weeklyTotal()->total_hours;
-    }
-
-    public function weeklyTotalAmount()
-    {
-        return $this->weeklyTotal()->total_amount;
     }
 
     public function weeklyCheckins()

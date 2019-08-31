@@ -4,6 +4,14 @@
     <div class="container">
         <h2 class="mb-3">{{ $child->fullName() }}</h2>
 
+        @if ($past_due)
+            <div class="alert alert-danger">
+                Amount Past Due: ${{ $past_due }}
+                <br>
+                <a href="{{ route('school:children.show-payment-form', [$school, $child]) }}">Make Payment</a>
+            </div>
+        @endif
+
         <a href="{{ route('school:children.edit', [$school, $child]) }}" class="btn btn-success">Edit</a>
         <a href="{{ route('school:children.delete-page', [$school, $child]) }}" class="btn btn-danger">Delete</a>
 
@@ -106,21 +114,21 @@
                         <tr>
                             <td>
                                 @if ($checkin->am_checkin)
-                                    Checked in at {{ $checkin->am_checkin_time->format('H.m') }}
+                                    Checked in at {{ $checkin->amCheckinTime() }}
                                 @else
                                     Wasn't checked in
                                 @endif
                             </td>
                             <td>
                                 @if ($checkin->pm_checkin)
-                                    Checked in at {{ $checkin->pm_checkin_time->format('H.m') }}
+                                    Checked in at {{ $checkin->pmCheckinTime() }}
                                 @else
                                     Wasn't Checked in
                                 @endif
                             </td>
                             <td>
                                 @if ($checkin->pm_checkout)
-                                    Checked out at {{ $checkin->pm_checkout_time->format('H.m') }}
+                                    Checked out at {{ $checkin->pmCheckoutTime() }}
                                 @elseif ($checkin->pm_checkin && !$checkin->pm_checkout)
                                     Wasn't Checked out
                                 @else
@@ -131,6 +139,9 @@
                     </tbody>
                 </table>
                 @endforeach
+            </div>
+            <div class="card-footer">
+                Current Week Total: ${{ $current_week_total }} - <a href="{{ route('school:children.show-payment-form', [$school, $child]) }}">Make Payment</a>
             </div>
         </div>
 

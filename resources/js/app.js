@@ -65,5 +65,5 @@ function sigModal(checkboxes) {
     });
 }
 
-sigModal(am_checkboxes);
+// sigModal(am_checkboxes);
 sigModal(pm_checkboxes);

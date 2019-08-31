@@ -78,12 +78,13 @@ Route::group([
         Route::patch('pm-in', 'ChildCheckinController@pmCheckin')->name('pm-in');
         Route::patch('pm-out', 'ChildCheckinController@pmCheckout')->name('pm-out');
 
-        Route::get('{checkin}', 'ChildCheckinController@show')->name('checkin');
-        Route::get('{checkin}/edit', 'ChildCheckinController@edit')->name('checkin-edit');
-
         Route::get('payment', 'ChildPaymentController@showPaymentForm')->name('show-payment-form');
         Route::patch('pay-past-due', 'ChildPaymentController@payPastDue')->name('pay-past-due');
         Route::patch('pay-current-week', 'ChildPaymentController@payWeekTotal')->name('pay-current-week');
+
+        Route::get('{checkin}', 'ChildCheckinController@show')->name('checkin');
+        Route::get('{checkin}/edit', 'ChildCheckinController@edit')->name('checkin-edit');
+
 
     });
 });
