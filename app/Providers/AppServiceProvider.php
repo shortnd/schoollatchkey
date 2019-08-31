@@ -48,10 +48,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Blade::directive('diffForHumans', function ($date) {
-            return Carbon::parse($date)->diffForHumans();
-        });
-
         Blade::include('child.components.modal', 'signituremodal');
     }
 }

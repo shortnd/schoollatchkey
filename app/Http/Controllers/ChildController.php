@@ -67,8 +67,10 @@ class ChildController extends Controller
     {
         $parents = $child->childParent;
         $todayCheckin = $child->todayCheckin();
+        $weekCheckin = $child->checkins->whereBetween('created_at', [startOfWeek(), endOfWeek()])->take(5);
+        $pastWeekCheckin = $child->checkins->whereBetween('created_at', [startOfWeek()->subWeek(), endOfWeek()->subWeek()])->take(5);
 
-        return view('schools.children.show')->with(['child' => $child, 'today_checkin' => $todayCheckin]);
+        return view('schools.children.show')->with(['child' => $child, 'today_checkin' => $todayCheckin])->with('week_checkin', $weekCheckin)->with('past_week', $pastWeekCheckin);
     }
 
     /**

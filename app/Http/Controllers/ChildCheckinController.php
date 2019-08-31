@@ -19,7 +19,7 @@ class ChildCheckinController extends Controller
         $checkinTotals = $child->weeklyTotal();
 
         $checkin->update([
-            'am_checkin' => $request->has(['am_checkin']),
+            'am_checkin' => $request->has('am_checkin'),
             'am_checkin_time' => now()
         ]);
 
@@ -108,5 +108,10 @@ class ChildCheckinController extends Controller
     public function show(Child $child, Checkin $checkin)
     {
         return view('child.checkins.show')->with(['child' => $child, 'checkin' => $checkin]);
+    }
+
+    public function edit(Child $child, Checkin $checkin)
+    {
+        return view('child.checkins.edit')->with(['child' => $child, 'checkin' => $checkin]);
     }
 }
