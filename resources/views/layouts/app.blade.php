@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -113,6 +110,14 @@
                                 </div>
                                 @else
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item"
+                                        href="{{ route('school:children.half-day', $school) }}"
+                                        onclick="event.preventDefault(); document.getElementById('half-day-form').submit()">
+                                        Half-Day
+                                    </a>
+                                    <form id="half-day-form" action="{{ route('school:children.half-day', $school) }}" method="POST" style="display:none;">
+                                        @csrf
+                                    </form>
                                     <a class="dropdown-item" href="{{ route('school:logout', $school) }}"
                                         onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
@@ -122,6 +127,7 @@
                                     <form id="logout-form" action="{{ route('school:logout', $school) }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+
                                 </div>
                                 @endunless
                             </li>
@@ -140,7 +146,7 @@
                 @enderror
                 @role('staff|admin')
                 @if (isset($invitations_count) && $invitations_count > 0)
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert" id="invitation-count" v-if="!close">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" id="invitation-count">
                         There are {{ $invitations_count }} waiting for invitation email to be sent <a href="{{ route('school:show-invitations', $school) }}">invitations</a>.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -152,5 +158,8 @@
             @yield('content')
         </main>
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

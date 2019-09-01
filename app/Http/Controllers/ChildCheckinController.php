@@ -51,14 +51,18 @@ class ChildCheckinController extends Controller
 
         $pm_checkin = $child->todayCheckin();
 
-        $time = Carbon::create(
-            today()->format('Y'),
-            today()->format('m'),
-            today()->format('d'),
-            15,
-            0,
-            0
-        );
+        if (!$child->half_day) {
+            $time = Carbon::create(
+                today()->format('Y'),
+                today()->format('m'),
+                today()->format('d'),
+                15,
+                0,
+                0
+            );
+        } else {
+            $time = now();
+        }
 
         $pm_checkin->update([
             'pm_checkin' => $request->has('pm_checkin'),
@@ -71,18 +75,19 @@ class ChildCheckinController extends Controller
     public function pmCheckout(Request $request, Child $child)
     {
         $this->validate($request, [
-            // 'sig' => 'required|min:10000',
+            'sig' => 'required|min:10000',
             'pm_checkout' => 'required'
         ]);
 
         $pm_checkout = $child->todayCheckin();
-        $checkinTotals = $child->weeklyTotal();
+        $checkinTotals = $child->weeklyTotal()->first();
 
         if ($request->has('pm_checkout')) {
             // TODO: Implement upload to cloudiary
             $pm_checkout->update([
                 'pm_checkout_time' => now(),
-                // 'pm_sig' => $request->sig
+                'pm_checkout' => $request->has('pm_checkout'),
+                'pm_sig' => $request->sig
             ]);
 
             $pm_diff = Carbon::parse(

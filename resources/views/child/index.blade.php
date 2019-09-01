@@ -7,7 +7,7 @@
     @foreach($children as $child)
     <div class="card mb-3">
         <div class="card-header">
-            {{ $child->first_name }}
+            {{ $child->first_name }} - <a href="{{ route('school:children.show', [$school, $child]) }}">Detail</a>
             @if (count($child->pastDue()) > 0)
             <small class="text-danger d-block">Past Due: {{ $child->pastDue() }}</small>
             @endif
@@ -31,10 +31,11 @@
                         Checked in at {{ $child->checkins->first()->amCheckinTime() }}
                         @endif
                 </div>
-                @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 && $child->todayCheckin()->pm_checkin)
+                {{-- now()->format('H.m') > 15 && now()->format('H.m') < 17.3 &&  --}}
+                @elseif ($child->todayCheckin()->pm_checkin)
                     <div class="col-md-4">
                         @if ($child->checkins->first()->pm_checkout_time)
-                        {{ $child->checkins->first()->getCheckoutTime() }}
+                        {{ $child->checkins->first()->pmCheckoutTime() }}
                         <br>
                         {{ $child->checkins->first()->getCheckoutDiffHumans() }}
                         @elseif($child->todayCheckin()->pm_checkin)
@@ -42,21 +43,21 @@
                         @error('pm-checkout')
                         {{ $message }}
                         @enderror
-                        <form action="{{ route('school:children.pm-out', [$school, $child]) }}" method="POST">
+                        <form action="{{ route('school:children.pm-out', [$school, $child]) }}" method="POST" class="checkout-form">
                             @csrf
                             @method('PATCH')
                             <label for="pm_checkout">PM checkout
                                 <input name="pm_checkout" id="pm_checkout" type="checkbox">
-                                @signituremodal
                             </label>
+                            @signituremodal
                         </form>
                         @else
-                        {{ $child->todayCheckin()->pm_checkin }}
-                        {{ now()->format('H.m') > 15 && now()->format('H.m') < 17.3 }}
+                        {{-- {{ now()->format('H') > 15 && now()->format('H.m') < 17.3 || $child->half_day }} --}}
                         <strong>Student not in afternoon latchkey</strong>
                         @endif
                     </div>
-                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3) <div class="col-md-4">
+                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 || $child->half_day)
+                    <div class="col-md-4">
                         @if (! $child->todayCheckin()->pm_checkin)
                         <form action="{{ route('school:children.pm-in', [$school, $child]) }}" method="post">
                             @csrf
@@ -65,7 +66,10 @@
                                 PM Check In &nbsp;
                                 <input type="checkbox" name="pm_checkin" id="pm_checkin"
                                     {{ $child->checkins->first()->pm_checkin ? 'checked' : '' }}
-                                    {{ $child->checkins->first()->pm_disabled() ? 'disabled' : '' }}
+                                    @if ($child->checkins->first()->pm_disabled() && !$child->half_day)
+                                    disabled
+                                    @endif
+                                    {{-- {{ $child->checkins->first()->pm_disabled() || $child->half_day ? 'disabled' : '' }} --}}
                                     onchange="this.form.submit()">
                             </label>
                         </form>
@@ -83,6 +87,7 @@
     </div>
 </div>
 <div class="card-footer">
+</div>
 </div>
 @endforeach
 @else

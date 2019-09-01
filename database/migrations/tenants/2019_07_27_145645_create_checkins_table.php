@@ -21,7 +21,7 @@ class CreateCheckinsTable extends Migration
             $table->unsignedInteger('total')->default(0);
             $table->string('initals')->nullable();
             // TODO: Will add Sig
-            // $table->text('pm_sig')->nullable();
+            $table->text('pm_sig')->nullable();
             // Relationships
             $table->unsignedBigInteger('child_id');
             $table->foreign('child_id')->references('id')->on('children')->onDelete('CASCADE');

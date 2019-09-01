@@ -57,7 +57,7 @@ class Checkin extends Model
         return Carbon::parse($this->pm_checkin_time)->format('h:i a');
     }
 
-    public function getCheckoutTime()
+    public function pmCheckoutTime()
     {
         return Carbon::parse($this->pm_checkout_time)->format('h:i a');
     }

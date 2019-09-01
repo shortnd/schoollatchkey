@@ -61,6 +61,7 @@ Route::group([
         Route::get('', 'ChildController@index')->name('index');
         Route::get('create', 'ChildController@create')->name('create');
         Route::post('', 'ChildController@store')->name('store');
+        Route::post('half-day', 'HalfDayController@index')->name('half-day');
     });
     Route::group([
         'prefix' => '/{child}',
@@ -72,6 +73,7 @@ Route::group([
         Route::get('edit', 'ChildController@edit')->name('edit');
         Route::delete('delete', 'ChildController@destroy')->name('destroy');
         Route::get('all-checkins', 'ChildController@AllCheckins')->name('all-checkins');
+        Route::get('search-checkins', 'ChildCheckinSearchController@index')->name('search-checkins');
         Route::delete('delete', 'ChildController@destroy')->name('destory');
 
         Route::patch('am-in', 'ChildCheckinController@amCheckin')->name('am-in');

@@ -24,6 +24,7 @@ class CreateChildrenTable extends Migration
             $table->string('emergency_contact_relationship')->nullable();
 
             $table->integer('payment_credit')->default(0);
+            $table->boolean('half_day')->default(false);
             $table->timestamps();
         });
     }

@@ -47,6 +47,7 @@ class Child extends Model
 
         static::created(function ($child) {
             $child->checkins()->create();
+            $child->checkin_totals()->create();
         });
     }
 

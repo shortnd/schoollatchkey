@@ -3,6 +3,10 @@
 @section('content')
     <div class="container">
         <h2 class="mb-3">{{ $child->fullName() }}</h2>
+        <div class="mb-3 d-flex align-content-around justify-content-around">
+            <a href="{{ route('school:children.all-checkins', [$school, $child]) }}" class="d-block">All Checkins</a>
+            <a href="{{ route('school:children.search-checkins', [$school, $child]) }}" class="d-block">Search Checkins</a>
+        </div>
 
         @if ($past_due)
             <div class="alert alert-danger">
@@ -43,21 +47,21 @@
                                 }}
                             </td>
                             <td>
-                                {{
-                                    $today_checkin->pm_checkin
-                                    ? $today_checkin->pm_checkin_time
-                                    : "Not Checked in today"
-                                }}
+                                @if ($today_checkin->pm_checkin)
+                                    {{ $today_checkin->pmCheckinTime() }}
+                                @else
+                                    Not Checked in today
+                                @endif
                             </td>
                             <td>
                                 @if (!$today_checkin->pm_checkin)
                                 <strong>Student not checked in today</strong>
                                 @else
-                                    {{
-                                        $today_checkin->pm_checkout
-                                        ? Carbon\Carbon::diffForHumans($today_checkin->pm_checkout_time)
-                                        : "Not Checked out yet"
-                                    }}
+                                    @if ($today_checkin->pmCheckoutTime())
+                                        {{ $today_checkin->pmCheckoutTime() }}
+                                    @else
+                                        Not Checked out yet
+                                    @endif
                                 @endif
                             </td>
                         </tr>

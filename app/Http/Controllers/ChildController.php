@@ -12,7 +12,7 @@ class ChildController extends Controller
     private $school;
     public function __construct(SchoolManager $schoolManager)
     {
-        $this->school = $schoolManager->getSchool();
+        $this->school = $schoolManager;
         $this->middleware(['auth']);
         $this->middleware(['role:admin|staff'], ['except' => [
             'index',
@@ -114,7 +114,7 @@ class ChildController extends Controller
     {
         $child->delete();
 
-        return redirect(route('school:school.index'));
+        return redirect(route('school:school.index', $this->school->getSchool()));
     }
 
     // public function updateContact(Request $request, Child $child)
@@ -124,7 +124,11 @@ class ChildController extends Controller
 
     public function AllCheckins(Child $child)
     {
-        return view('school.children.all-checkins')->with('child', $child->with('checkins'));
+        $child->months = $child->checkins->groupBy(function ($month) {
+            return Carbon::parse($month->created_at)->format('m');
+        });
+
+        return view('school.children.all-checkins')->with('checkins', $child);
     }
 
 
