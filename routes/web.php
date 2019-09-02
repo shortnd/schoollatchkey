@@ -13,7 +13,7 @@ Route::resource('schools', 'SchoolController');
 Route::get('{school}/update-owner', 'SchoolController@updateOwner')->name('schools.update-owner');
 Route::group([
     'prefix' => '/{school}',
-    'middleware' => 'school',
+    'middleware' => ['school', 'view-school'],
     'as' => 'school:',
 ], function () {
     // Auth
