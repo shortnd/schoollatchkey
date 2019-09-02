@@ -147,15 +147,32 @@ class SchoolController extends Controller
         return view('schools.show', new SchoolViewModel($school));
     }
 
+    public function updateOwner(Request $request)
+    {
+        try {
+            $school = School::where('slug', $request->school)->first();
+            $school->owner_id = auth()->id();
+            $school->save();
+            // dd($school);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            //
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\School  $school
      * @return \Illuminate\Http\Response
      */
-    public function edit(School $school)
+    public function edit(Request $request)
     {
-        return view('schools.edit', new SchoolViewModel($school));
+        // $school = School::where('slug', $request->school)->first();
+        // // dd($school);
+        // return view('schools.edit')->with('school', $school);
+        // // dd($school->owner_id);
+        // // return view('schools.edit')->with('school', $school);
     }
 
     /**

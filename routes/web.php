@@ -9,6 +9,7 @@ Auth::routes([
     'register' => false
 ]);
 Route::resource('schools', 'SchoolController');
+Route::get('{school}/update-owner', 'SchoolController@updateOwner')->name('schools.update-owner');
 Route::group([
     'prefix' => '/{school}',
     'middleware' => 'school',
@@ -18,6 +19,7 @@ Route::group([
     Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     // Auth | role:admin|staff
     Route::resource('users', 'UserController');
+    Route::get('users/{user}/delete-confirm', 'UserController@deleteConfirm')->name('users.delete-confirm');
     // Auth | role:admin|staff
     Route::group(['prefix' => 'users'], function () {
         Route::patch('{user}/update-roles', 'UserController@updateRoles')->name('user.update-roles');

@@ -153,6 +153,15 @@
                         </button>
                     </div>
                 @endif
+                    @role('admin')
+                    @if ($school)
+                    @if (!$school->owner_id)
+                        <div class="alert alert-danger d-print-none">
+                            {{ $school->name }} has no owner, if you want to be the owner of the schools/account <a href="{{ route('schools.update-owner', $school) }}">Click Here</a>
+                        </div>
+                    @endif
+                    @endif
+                    @endrole
                 @endrole
             </div>
             @yield('content')

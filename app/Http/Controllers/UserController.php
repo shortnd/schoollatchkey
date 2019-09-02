@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ChildParent;
 use App\Jobs\ChildParentCreateJob;
 use App\Jobs\ChildParentDeleteJob;
 use App\Services\SchoolManager;
@@ -69,5 +70,38 @@ class UserController extends Controller
         $this->updateRole($request, $user, 'staff');
         $this->updateRole($request, $user, 'admin');
         return redirect()->back();
+    }
+
+    public function deleteConfirm(User $user)
+    {
+        return view('users.delete-confirm')->with('user', $user);
+    }
+
+    public function destroy(User $user)
+    {
+        $school = $this->schoolManager->getSchool();
+        if ($user->hasRole('parent')) {
+            try {
+                $childParent = ChildParent::where('user_id', $user->id)->first();
+            } catch (\Exception $e) {
+                // TODO: All Log or something here
+            }
+            if ($childParent != null) {
+                $childParent->delete();
+            }
+            $user->delete();
+        }
+
+        if ($user->hasRole('staff')) {
+            $user->delete();
+        }
+
+        if ($user->hasRole('admin')) {
+            if ($user->id == $school->owner_id) {
+                return redirect()->back()->withErrors('owner', 'The requested user is the owner of the school');
+            }
+            $user->delete();
+        }
+        return redirect(route('school:school.index', $this->schoolManager->getSchool()))->with('school', 'User deleted');
     }
 }
