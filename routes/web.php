@@ -6,7 +6,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes([
-    'register' => false
+    // 'register' => false
+    'reset' => false
 ]);
 Route::resource('schools', 'SchoolController');
 Route::get('{school}/update-owner', 'SchoolController@updateOwner')->name('schools.update-owner');
@@ -45,7 +46,10 @@ Route::group([
     Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('show-registration')->middleware('hasInvitation');
     Route::post('register', 'Auth\RegisterController@register')->name('register');
     Route::get('success', 'Auth\SchoolRegisteredController@success')->name('auth-success');
-    Auth::routes(['register' => false]);
+    Auth::routes([
+        'register' => false,
+        'reset' => false
+    ]);
     Route::group([
         'prefix' => '/parents',
         'as' => 'parents.',
