@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\AddLateFee;
 use App\Console\Commands\DailyChildCheckin;
+use App\Console\Commands\SchoolInvitationClear;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(DailyChildCheckin::class)->weekdays()->daily();
         $schedule->command(AddLateFee::class)->weekdays()
             ->between('18:00', '18:30')->everyTenMinutes();
+        $schedule->command(SchoolInvitationClear::class)->daily();
     }
 
     /**
