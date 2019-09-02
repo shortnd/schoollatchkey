@@ -1,14 +1,11 @@
 <?php
-
-use App\Invitation;
-
-Route::get('/', function () {
-    return view('welcome');
-});
 Auth::routes([
     // 'register' => false
     'reset' => false
 ]);
+Route::get('/home', function (Request $request) {
+    return response(redirect(route('schools.index')));
+});
 Route::resource('schools', 'SchoolController');
 Route::get('{school}/update-owner', 'SchoolController@updateOwner')->name('schools.update-owner');
 Route::group([
@@ -16,6 +13,7 @@ Route::group([
     'middleware' => ['school', 'view-school'],
     'as' => 'school:',
 ], function () {
+    Route::get('/', 'SchoolChildrenController@index')->name('school.index');
     // Auth
     Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     // Auth | role:admin|staff
@@ -30,7 +28,6 @@ Route::group([
         Route::get('profile', 'UserProfileController@index')->name('user.profile-index');
     });
     // Auth
-    Route::get('/', 'SchoolChildrenController@index')->name('school.index');
     // Route::resource('children', 'ChildController');
     // Auth | role:admin|staff
     Route::get('add-child', 'ChildController@create')->name('children.create');
@@ -95,4 +92,8 @@ Route::group([
 
 
     });
+});
+
+Route::get('/', function () {
+    return view('welcome');
 });

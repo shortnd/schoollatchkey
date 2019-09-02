@@ -53,6 +53,8 @@ class School extends Model
 
     public function route($name, $parameters = [], $absolute = true)
     {
+        // return 'http://' . $this->slug . app('url')->route($name, $parameters, false);
+        // ! Path routing
         return app('url')->route($name, array_merge([$this->slug], $parameters), $absolute);
     }
 
