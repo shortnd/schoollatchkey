@@ -53,6 +53,9 @@ class SchoolDailyCheckins extends Command
             $children->each(function ($child) {
                 $child->addCheckin();
                 $child->addWeeklyTotal();
+                $child->update([
+                    'half_day' => false
+                ]);
             });
         }
 

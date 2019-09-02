@@ -32,15 +32,19 @@
                                 }}
                             </td>
                             <td>
-                                {{
-                                    $checkin->pm_checkin
-                                        ? "Checked in at {$checkin->pm_checkin_time}"
-                                        : "Wasn't Checkin In"
-                                }}
+                                @if ($checkin->pm_checkin_time)
+                                    {{ $checkin->pmCheckinTime() }}
+                                @else
+                                    Wasn't Checked in.
+                                @endif
                             </td>
                             <td>
                                 @if ($checkin->pm_checkout_time)
-                                    Checkout time??
+                                    @if ($checkin->pm_checkout)
+                                        {{ $checkin->pmCheckoutTime() }}
+                                    @else
+                                        Not Checked out of Latchkey
+                                    @endif
                                 @else
                                     <strong>Student not in afternoon latchkey</strong>
                                 @endif
@@ -49,7 +53,7 @@
                     </tbody>
                 </table>
                 @if ($checkin->pm_sig)
-                <div>
+                <div class="d-flex justify-content-end align-content-end">
                     <img src="{{ $checkin->pm_sig }}" alt="pm signature" class="signature">
                 </div>
                 @endif

@@ -140,13 +140,13 @@
         <main class="py-4">
             <div class="container">
                 @error('school')
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger d-print-none" role="alert">
                         {{ $message }}
                     </div>
                 @enderror
                 @role('staff|admin')
                 @if (isset($invitations_count) && $invitations_count > 0)
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert" id="invitation-count">
+                    <div class="alert alert-warning alert-dismissible fade show d-print-none" role="alert" id="invitation-count">
                         There are {{ $invitations_count }} waiting for invitation email to be sent <a href="{{ route('school:show-invitations', $school) }}">invitations</a>.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
