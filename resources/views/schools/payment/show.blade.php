@@ -28,10 +28,31 @@
                             <div class="form-group col-md-6"><input type="number" name="past_due_amount" id="past_due_amount" class="form-control"></div>
                         </div>
 
+                        @if ($child->payment_credit)
+                        <div class="form-group">
+                            <div class="offset-md-2">
+                                <label for="payment_credit">
+                                    Use Payment Credit
+                                </label>
+                                <input type="checkbox" name="payment_credit" id="payment_credit">
+                            </div>
+                        </div>
+                        @endif
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Submit Payment</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        @endif
+        @if ($child->payment_credit)
+            <div class="card mb-3">
+                <div class="card-header">
+                    Payment Credit
+                </div>
+                <div class="card-body">
+                    Current credit - ${{ $child->payment_credit }}
                 </div>
             </div>
         @endif
@@ -63,6 +84,17 @@
                             <input type="number" name="total_amount" id="total_amount" class="form-control" value="{{ $child->past_due ? 'disabled' : '' }}">
                         </div>
                     </div>
+
+                    @if ($child->payment_credit)
+                    <div class="form-group">
+                        <div class="offset-md-2">
+                            <label for="payment_credit">
+                                Use Payment Credit
+                            </label>
+                            <input type="checkbox" name="payment_credit" id="payment_credit">
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="form-group row">
                         <button type="submit" class="btn btn-primary" {{ $child->past_due ? 'disabled' : '' }}>Submit Payment</button>

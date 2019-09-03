@@ -9,7 +9,7 @@
         <div class="card-header">
             {{ $child->first_name }} - <a href="{{ route('school:children.show', [$school, $child]) }}">Detail</a>
             @if (count($child->pastDue()) > 0)
-            <small class="text-danger d-block">Past Due: {{ $child->pastDue() }}</small>
+            <small class="text-danger d-block">Past Due: ${{ $child->pastDue()->sum('total_amount') }}</small>
             @endif
         </div>
         <div class="card-body">

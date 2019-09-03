@@ -78,7 +78,7 @@ class Child extends Model
 
     public function weeklyTotal()
     {
-        return $this->checkin_totals->whereBetween('created_at', [startOfWeek(), endOfWeek()]);
+        return $this->checkin_totals->whereBetween('created_at', [startOfWeek(), endOfWeek()])->first();
     }
 
     public function weeklyTotalAmount()
@@ -128,7 +128,7 @@ class Child extends Model
 
     public function addWeeklyTotal()
     {
-        if ($this->weeklyTotal()) {
+        if (null !== $this->weeklyTotal()) {
             return $errors['weeklyTotal'] = 'Weekly total already created';
         } else {
             return $this->checkin_totals()->create();
