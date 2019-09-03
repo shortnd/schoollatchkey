@@ -13,8 +13,10 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         $this->call(PermissionSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(SchoolSeeder::class);
-        \App\User::first()->assignRole('admin');
+        if (config('app.env') !== 'production') {
+            $this->call(UserSeeder::class);
+            $this->call(SchoolSeeder::class);
+            \App\User::first()->assignRole('admin');
+        }
     }
 }
