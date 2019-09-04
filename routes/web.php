@@ -10,9 +10,10 @@ Route::resource('schools', 'SchoolController');
 Route::get('{school}/update-owner', 'SchoolController@updateOwner')->name('schools.update-owner');
 Route::group([
     'prefix' => '/{school}',
-    'middleware' => ['school', 'view-school'],
+    'middleware' => ['school'],
     'as' => 'school:',
 ], function () {
+    // View School
     Route::get('/', 'SchoolChildrenController@index')->name('school.index');
     // Auth
     Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
@@ -40,7 +41,7 @@ Route::group([
     Route::post('invitations', 'Auth\SchoolInvitationController@store')->name('store-invitation');
     Route::delete('invitations/{invitation}/delete', 'Auth\SchoolInvitationController@delete')->name('delete-invitation');
     // Guest
-    Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('show-registration')->middleware('hasInvitation');
+    Route::get('register', 'Auth\SchoolInvitationController@showRegistrationForm')->name('hasInvitation')->middleware('hasInvitation');
     Route::post('register', 'Auth\RegisterController@register')->name('register');
     Route::get('success', 'Auth\SchoolRegisteredController@success')->name('auth-success');
     Auth::routes([
