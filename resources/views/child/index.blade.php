@@ -90,7 +90,7 @@
     </div>
 </div>
 <div class="card-footer">
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-4 mb-3">
             <h5 class="d-block">AM Checkin Time</h5>
             @if ($child->checkins->first()->am_checkin)
@@ -117,7 +117,7 @@
                 No Checked in Today
             @endif
         </div>
-    </div>
+    </div> --}}
 </div>
 </div>
 @endforeach
