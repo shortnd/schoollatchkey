@@ -85,12 +85,39 @@
             </div>
             @else
             <h3 class="mx-auto">It is not time to checkin children to latchkey</h3>
-            {{-- TODO: ADD OVER RIDE ROUTE FOR HALF DAYS --}}
             @endif
         </div>
     </div>
 </div>
 <div class="card-footer">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <h5 class="d-block">AM Checkin Time</h5>
+            @if ($child->am_checkin_time)
+                {{ $child->amCheckinTime() }}
+            @else
+            Not Checked in Today
+            @endif
+        </div>
+        <div class="col-md-4 mb-3">
+            <h5 class="d-block">PM Checkin Time</h5>
+            @if ($child->pm_checkin_time)
+                {{ $child->pmCheckinTime() }}
+            @else
+            Not Checked in Today
+            @endif
+        </div>
+        <div class="col-md-4 mb-3">
+            <h5 class="d-block">PM Checkout Time</h5>
+            @if ($child->pm_checkin_time)
+                Child Still In Latchkey
+            @elseif ($child->pm_checkout_time)
+                {{ $child->pmCheckoutTime() }}
+            @else
+                No Checked in Today
+            @endif
+        </div>
+    </div>
 </div>
 </div>
 @endforeach
