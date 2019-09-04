@@ -91,7 +91,13 @@
 </div>
 <div class="card-footer">
     <div class="row">
-        <div class="col-md-4 mb-3"></div>
+        <div class="col-md-4 mb-3">
+            @if ($child->checkins->first()->am_checkin)
+
+            @else
+                Not Checked in Today
+            @endif
+        </div>
         <div class="col-md-4 mb-3"></div>
         <div class="col-md-4 mb-3"></div>
     </div>
