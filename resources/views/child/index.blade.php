@@ -93,7 +93,8 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             <h5 class="d-block">AM Checkin Time</h5>
-            @if ($child->am_checkin_time)
+            {{ $child->am_checkin }}
+            @if ($child->checkins->first()->am_checkin)
                 {{ $child->amCheckinTime() }}
             @else
             Not Checked in Today
@@ -101,7 +102,7 @@
         </div>
         <div class="col-md-4 mb-3">
             <h5 class="d-block">PM Checkin Time</h5>
-            @if ($child->pm_checkin_time)
+            @if ($child->checkins->first()->pm_checkin_time)
                 {{ $child->pmCheckinTime() }}
             @else
             Not Checked in Today
@@ -109,9 +110,9 @@
         </div>
         <div class="col-md-4 mb-3">
             <h5 class="d-block">PM Checkout Time</h5>
-            @if ($child->pm_checkin_time)
+            @if ($child->checkins->first()->pm_checkin_time)
                 Child Still In Latchkey
-            @elseif ($child->pm_checkout_time)
+            @elseif ($child->checkins->first()->pm_checkout_time)
                 {{ $child->pmCheckoutTime() }}
             @else
                 No Checked in Today
