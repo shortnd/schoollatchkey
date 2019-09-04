@@ -92,6 +92,7 @@
 <div class="card-footer">
     <div class="row">
         <div class="col-md-4 mb-3">
+            <strong class="d-block mb-3">AM Checkin</strong>
             @if ($child->checkins->first()->am_checkin)
                 Checkin Time: {{ $child->checkins->first()->amCheckinTime() }}
             @else
@@ -99,6 +100,7 @@
             @endif
         </div>
         <div class="col-md-4 mb-3">
+            <strong class="d-block mb-3">PM Checkin</strong>
             @if ($child->checkins->first()->pm_checkin)
                 Checkin Time: {{ $child->checkins->first()->pmCheckinTime() }}
             @else
@@ -106,6 +108,7 @@
             @endif
         </div>
         <div class="col-md-4 mb-3">
+            <strong class="d-block mb-3">PM Checkout</strong>
             @if ($child->checkins->first()->pm_checkin)
                 Student still in Latchkey
             @elseif ($child->checkins->first()->pm_checkout)
