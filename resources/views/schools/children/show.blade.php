@@ -45,11 +45,16 @@
                     <tbody>
                         <tr>
                             <td>
-                                {{
+                                @if ($today_checkin->am_checkin)
+                                    {{ $today_checkin->amCheckinTime() }}
+                                @else
+                                    Not Checked in Today
+                                @endif
+                                {{-- {{
                                     $today_checkin->am_checkin
                                     ? $today_checkin->am_checkin_time
                                     : "Not Checked in today"
-                                }}
+                                }} --}}
                             </td>
                             <td>
                                 @if ($today_checkin->pm_checkin)
