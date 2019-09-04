@@ -7,7 +7,7 @@
     @foreach($children as $child)
     <div class="card mb-3">
         <div class="card-header">
-            {{ $child->first_name }} - <a href="{{ route('school:children.show', [$school, $child]) }}">Detail</a>
+            {{ $child->fullName() }} - <a href="{{ route('school:children.show', [$school, $child]) }}">Detail</a>
             <br>
             @role('staff|admin')
             @if ($child->room_number)
