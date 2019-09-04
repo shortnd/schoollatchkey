@@ -98,8 +98,22 @@
                 Not Checked in Today
             @endif
         </div>
-        <div class="col-md-4 mb-3"></div>
-        <div class="col-md-4 mb-3"></div>
+        <div class="col-md-4 mb-3">
+            @if ($child->checkins->first()->pm_checkin)
+                Checkin Time: {{ $child->checkins->first()->pmCheckinTime() }}
+            @else
+                Not Checked in Today
+            @endif
+        </div>
+        <div class="col-md-4 mb-3">
+            @if ($child->checkins->first()->pm_checkin)
+                Student still in Latchkey
+            @elseif ($child->checkins->first()->pm_checkout)
+                Checkout Time: {{ $child->checkins->first()->pmCheckoutTime() }}
+            @else
+                Not Checked in Today
+            @endif
+        </div>
     </div>
     {{-- <div class="row">
         <div class="col-md-4 mb-3">
