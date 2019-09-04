@@ -93,7 +93,7 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             @if ($child->checkins->first()->am_checkin)
-                {{ $child->checkins->first()->amCheckinTime() }}
+                Checkin Time: {{ $child->checkins->first()->amCheckinTime() }}
             @else
                 Not Checked in Today
             @endif
