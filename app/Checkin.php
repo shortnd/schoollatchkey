@@ -41,7 +41,7 @@ class Checkin extends Model
     public function pm_disabled()
     {
         $time = Carbon::now()->format('H.m');
-        if ($time > 15 && $time < 17.3) {
+        if ($time > 15.3 && $time < 17.3) {
             return false;
         }
         return true;

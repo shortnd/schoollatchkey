@@ -62,16 +62,19 @@ class ChildPaymentController extends Controller
         }
         $weeklyDue = $child->checkin_totals()->whereBetween('created_at', [startOfWeek(), endOfWeek()])->first();
         $weeklyDueTotal = $weeklyDue->total_amount;
-        while($paymentAmount <= $weeklyDueTotal) {
-            $difference = $weeklyDueTotal - $paymentAmount;
-            $weeklyDue->update([
-                'total_amount' => $weeklyDueTotal - $paymentAmount
-            ]);
-            $child->update([
-                'payment_credit' => $difference
-            ]);
-            return redirect()->back();
+        if ($weeklyDueTotal) {
+            while($paymentAmount <= $weeklyDueTotal) {
+                $difference = $weeklyDueTotal - $paymentAmount;
+                $weeklyDue->update([
+                    'total_amount' => $weeklyDueTotal - $paymentAmount
+                ]);
+                $child->update([
+                    'payment_credit' => $difference
+                ]);
+                return redirect()->back();
+            }
         }
+        $paymentAmount = $paymentAmount + $child->payment_credit;
         $child->update([
             'payment_credit' => $paymentAmount
         ]);

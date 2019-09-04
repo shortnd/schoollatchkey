@@ -57,7 +57,7 @@ class ChildCheckinController extends Controller
                 today()->format('m'),
                 today()->format('d'),
                 15,
-                0,
+                30,
                 0
             );
         } else {

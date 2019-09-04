@@ -12,6 +12,10 @@ class Child extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'room_number' => 'numeric'
+    ];
+
     public function fullName()
     {
         return "{$this->first_name} {$this->last_name}";

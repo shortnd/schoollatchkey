@@ -45,12 +45,14 @@ class SchoolChildrenController extends Controller
     {
         $this->validate($request, [
             'first_name' => 'required',
-            'last_name' => 'required'
+            'last_name' => 'required',
+            'room_number' => 'required'
         ]);
 
         Child::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'room_number' => $request->room_number
         ]);
 
         return redirect(route('school:school.index', $this->school));

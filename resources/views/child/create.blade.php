@@ -32,6 +32,19 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
+
+                    <div class="form-group">
+                        <label for="room-number">Room Number</label>
+                        <input
+                            type="number"
+                            name="room_number"
+                            id="room-number" placeholder="Room Number" class="form-control @error('room_number')is-invalid @enderror" required value="{{ old('room_number') }}">
+                        @error('room_number')
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="card-footer">

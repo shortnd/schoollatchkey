@@ -49,7 +49,8 @@ class ChildController extends Controller
     {
         $validatedData = $this->validate($request, [
             'first_name' => 'required|min:2|max:255',
-            'last_name' => 'required|min:2|max:255'
+            'last_name' => 'required|min:2|max:255',
+            'room_number' => 'required|min:3|max:3'
         ]);
 
         Child::create($validatedData);
@@ -102,6 +103,17 @@ class ChildController extends Controller
      */
     public function update(Request $request, Child $child)
     {
+        $validatedData = $this->validate($request, [
+            'first_name' => 'required|min:3|string',
+            'last_name' => 'required|min:3|string',
+            'room_number' => 'required|min:100|max:999|numeric',
+            'emergency_contact_name' => 'nullable|string',
+            'emergency_contact_phone_number' => 'nullable|string|required_if:emergency_contact_name,string',
+            'emergency_contact_relationship' => 'nullable|string|required_if:emergency_contact_name,string'
+        ]);
+        $child->update($validatedData);
+        return redirect()->route('school:children.show', [$this->school->getSchool(), $child]);
+        // dd($validatedData);
         //
     }
 

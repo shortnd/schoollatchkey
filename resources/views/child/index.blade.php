@@ -8,8 +8,14 @@
     <div class="card mb-3">
         <div class="card-header">
             {{ $child->first_name }} - <a href="{{ route('school:children.show', [$school, $child]) }}">Detail</a>
+            <br>
+            @role('staff|admin')
+            @if ($child->room_number)
+                Room Number: {{ $child->room_number }}
+            @endif
+            @endrole
             @if (count($child->pastDue()) > 0)
-            <small class="text-danger d-block">Past Due: ${{ $child->pastDue()->sum('total_amount') }}</small>
+                <small class="text-danger d-block">Past Due: ${{ $child->pastDue()->sum('total_amount') }}</small>
             @endif
         </div>
         <div class="card-body">
@@ -31,7 +37,6 @@
                         Checked in at {{ $child->checkins->first()->amCheckinTime() }}
                         @endif
                 </div>
-                {{-- now()->format('H.m') > 15 && now()->format('H.m') < 17.3 &&  --}}
                 @elseif ($child->todayCheckin()->pm_checkin)
                     <div class="col-md-4">
                         @if ($child->checkins->first()->pm_checkout_time)
@@ -52,11 +57,10 @@
                             @signituremodal
                         </form>
                         @else
-                        {{-- {{ now()->format('H') > 15 && now()->format('H.m') < 17.3 || $child->half_day }} --}}
                         <strong>Student not in afternoon latchkey</strong>
                         @endif
                     </div>
-                    @elseif (now()->format('H.m') > 15 && now()->format('H.m') < 17.3 || $child->half_day)
+                    @elseif (now()->format('H.m') > 15.3 && now()->format('H.m') < 17.3 || $child->half_day)
                     <div class="col-md-4">
                         @if (! $child->todayCheckin()->pm_checkin)
                         <form action="{{ route('school:children.pm-in', [$school, $child]) }}" method="post">
@@ -75,7 +79,7 @@
                         </form>
                         @else
                         Checked in today.
-                        {{ $child->checkins->first()->pm_checkin }} {{ now()->format('H.m') > 15 }}
+                        {{ $child->checkins->first()->pm_checkin }} {{ now()->format('H.m') > 15.3 }}
                         {{ now()->format('H.m') < 17.3 }}
                         @endif
             </div>

@@ -3,6 +3,11 @@
 @section('content')
     <div class="container">
         <h2 class="mb-3">{{ $child->fullName() }}</h2>
+        @role('staff|admin')
+        @if ($child->room_number)
+            <h3 class="mb-3">Room Number: {{ $child->room_number }}</h3>
+        @endif
+        @endrole
         <div class="mb-3 d-flex align-content-around justify-content-around">
             <a href="{{ route('school:children.all-checkins', [$school, $child]) }}" class="d-block">All Checkins</a>
             <a href="{{ route('school:children.search-checkins', [$school, $child]) }}" class="d-block">Search Checkins</a>

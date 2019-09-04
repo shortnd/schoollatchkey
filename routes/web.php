@@ -72,7 +72,7 @@ Route::group([
     ], function () {
         Route::get('delete-page', 'ChildController@deletePage')->name('delete-page');
         Route::get('', 'ChildController@show')->name('show');
-        Route::put('', 'ChildController@update')->name('update');
+        Route::patch('', 'ChildController@update')->name('update');
         Route::get('edit', 'ChildController@edit')->name('edit');
         Route::delete('delete', 'ChildController@destroy')->name('destroy');
         Route::get('all-checkins', 'ChildController@AllCheckins')->name('all-checkins');
