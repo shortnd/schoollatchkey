@@ -28,21 +28,21 @@
                             @method('PATCH')
                             <label for="am_checkin">AM Check In &nbsp;
                                 <input type="checkbox" name="am_checkin" id="am_checkin"
-                                    {{ $child->checkins->first()->am_checkin ? 'checked' : '' }}
-                                    {{ $child->checkins->first()->am_disabled() ? 'disabled' : '' }}
+                                    {{ $child->checkins->latest()->am_checkin ? 'checked' : '' }}
+                                    {{ $child->checkins->latest()->am_disabled() ? 'disabled' : '' }}
                                     onchange="this.form.submit()">
                             </label>
                         </form>
                         @else
-                        Checked in at {{ $child->checkins->first()->amCheckinTime() }}
+                        Checked in at {{ $child->checkins->latest()->amCheckinTime() }}
                         @endif
                 </div>
                 @elseif ($child->todayCheckin()->pm_checkin)
                     <div class="col-md-4">
-                        @if ($child->checkins->first()->pm_checkout_time)
-                        {{ $child->checkins->first()->pmCheckoutTime() }}
+                        @if ($child->checkins->latest()->pm_checkout_time)
+                        {{ $child->checkins->latest()->pmCheckoutTime() }}
                         <br>
-                        {{ $child->checkins->first()->getCheckoutDiffHumans() }}
+                        {{ $child->checkins->latest()->getCheckoutDiffHumans() }}
                         @elseif($child->todayCheckin()->pm_checkin)
                         <strong>Student still in latchkey</strong>
                         @error('pm-checkout')
@@ -69,17 +69,17 @@
                             <label for="pm_checkin">
                                 PM Check In &nbsp;
                                 <input type="checkbox" name="pm_checkin" id="pm_checkin"
-                                    {{ $child->checkins->first()->pm_checkin ? 'checked' : '' }}
-                                    @if ($child->checkins->first()->pm_disabled() && !$child->half_day)
+                                    {{ $child->checkins->latest()->pm_checkin ? 'checked' : '' }}
+                                    @if ($child->checkins->latest()->pm_disabled() && !$child->half_day)
                                     disabled
                                     @endif
-                                    {{-- {{ $child->checkins->first()->pm_disabled() || $child->half_day ? 'disabled' : '' }} --}}
+                                    {{-- {{ $child->checkins->latest()->pm_disabled() || $child->half_day ? 'disabled' : '' }} --}}
                                     onchange="this.form.submit()">
                             </label>
                         </form>
                         @else
                         Checked in today.
-                        {{ $child->checkins->first()->pm_checkin }} {{ now()->format('H.m') > 15.3 }}
+                        {{ $child->checkins->latest()->pm_checkin }} {{ now()->format('H.m') > 15.3 }}
                         {{ now()->format('H.m') < 17.3 }}
                         @endif
             </div>
@@ -93,26 +93,26 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             <strong class="d-block mb-3">AM Checkin</strong>
-            @if ($child->checkins->first()->am_checkin)
-                Checkin Time: {{ $child->checkins->first()->amCheckinTime() }}
+            @if ($child->todayCheckin()->am_checkin_time)
+                Checkin Time: {{ $child->todayCheckin()->amCheckinTime() }}
             @else
                 Not Checked in Today
             @endif
         </div>
         <div class="col-md-4 mb-3">
             <strong class="d-block mb-3">PM Checkin</strong>
-            @if ($child->checkins->first()->pm_checkin)
-                Checkin Time: {{ $child->checkins->first()->pmCheckinTime() }}
+            @if ($child->todayCheckin()->pm_checkin)
+                Checkin Time: {{ $child->todayCheckin()->pmCheckinTime() }}
             @else
                 Not Checked in Today
             @endif
         </div>
         <div class="col-md-4 mb-3">
             <strong class="d-block mb-3">PM Checkout</strong>
-            @if ($child->checkins->first()->pm_checkin)
+            @if ($child->todayCheckin()->pm_checkin)
                 Student still in Latchkey
-            @elseif ($child->checkins->first()->pm_checkout)
-                Checkout Time: {{ $child->checkins->first()->pmCheckoutTime() }}
+            @elseif ($child->todayCheckin()->pm_checkout)
+                Checkout Time: {{ $child->todayCheckin()->pmCheckoutTime() }}
             @else
                 Not Checked in Today
             @endif
